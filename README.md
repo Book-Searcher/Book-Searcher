@@ -5,28 +5,28 @@ A web service, which helps you to search books using sorting and different filte
 
 ### Main Functionality
 * Authorization
-    -Directly
-    -With Google account
+    - Directly
+    - With Google account
 * Roles
-    -Guest
-    -Authorized user
+    - Guest
+    - Authorized user
 * As Guest you allowed to
-    -Search for books with sorting and different filters
-    -Find where you can read them
-    -Find where you can buy them in the paper version
+    - Search for books with sorting and different filters
+    - Find where you can read them
+    - Find where you can buy them in the paper version
 * As Authorized user you allowed to
-    -Do all things that guest user can do
-    -Put a tick on the read books
-    -Rate read books
-    -Save books to your Favorites List
-    -Share a book on Social Networks
-    -Leave a book review
-    -Estimate personally reading progress - sheets/day (user marks a desired full time and how many days a week he is going to read)
+    - Do all things that guest user can do
+    - Put a tick on the read books
+    - Rate read books
+    - Save books to your Favorites List
+    - Share a book on Social Networks
+    - Leave a book review
+    - Estimate personally reading progress - sheets/day (user marks a desired full time and how many days a week he is going to read)
 
 * Book search allows user to
-    -Filter by title, author, genre etc
-    -Sort books by year, average price, alphabet etc
-    -Use logical operators (OR, AND, NOT)
+    - Filter by title, author, genre etc
+    - Sort books by year, average price, alphabet etc
+    - Use logical operators (OR, AND, NOT)
 
 ### Technologies
 #### Frontend
