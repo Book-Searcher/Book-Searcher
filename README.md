@@ -36,7 +36,7 @@ A web service, which helps you to search books using sorting and different filte
 #### Frontend
     -HTML5 
     -CSS3
-    -React
+    -Svelte
 #### Backend
     -Node.js
     -Fastify
