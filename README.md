@@ -15,6 +15,7 @@ A web service, which helps you to search books using sorting and different filte
         - Filter by title, author, genre etc
         - Sort books by year, average price, alphabet etc
         - Use logical operators (OR, AND, NOT)
+        - by matches, misprints
     - Find where you can read them
     - Find where you can buy them in the paper version using Google maps
 * As Authorized user you allowed to
@@ -42,8 +43,10 @@ A web service, which helps you to search books using sorting and different filte
 #### Backend:
     -Node.js
     -Fastify
-    -PostgreSQL
+    -PostgreSQL + ElephantSQL
     -JWT(JSON Web Tokens)
     -Sapper
     -Fuse.js
-![image](https://drive.google.com/uc?export=view&id=1oBZwB-OxBLn_Tcyvn3yBC8dUCLKHa-aA)
+![image](https://drive.google.com/uc?export=view&id=1XBPboiTjwMzlDjyCSVdfgkBjk3co3lVw)
+
+
