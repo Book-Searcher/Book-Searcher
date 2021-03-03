@@ -1,0 +1,41 @@
+{
+  "name": "book-searcher",
+  "version": "1.0.0",
+  "description": "A web service, which helps you to search books using sorting and different filters and to find where you can read them. If you want to buy a book in the paper version, this service will propose the nearest store and the store with lowest price based on your location. You can use this app not only as authorized user, but also as a guest. Unfortunately, in this case you will not be allowed to rate and save products to your Favorites List.",
+  "main": "index.js",
+  "scripts": {
+    "start": "fastify start index",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .js,.ts",
+    "lint:fix": "eslint --fix . --ext .js,.ts",
+    "prettier": "prettier --check \"/*.js\"",
+    "prettier:fix": "prettier --write \"/*.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Book-Searcher/Book-Searcher.git"
+  },
+  "keywords": [],
+  "author": "Valeriia Morkvina, Mariia Som",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Book-Searcher/Book-Searcher/issues"
+  },
+  "homepage": "https://github.com/Book-Searcher/Book-Searcher#readme",
+  "dependencies": {
+    "fastify": "^3.13.0",
+    "typescript": "^4.2.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "eslint": "^7.21.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-html": "^6.1.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1"
+  }
+}
