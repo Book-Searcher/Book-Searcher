@@ -34,7 +34,7 @@ A web service, which helps you to search books using sorting and different filte
 - Secure authorization (Password hashing)
 - Linguistic duality
 
-### <ins> Technologies </ins>
+### <ins> Technologies </ins>:
 
 - Sapper&Svelte
 - PostgreSQL
