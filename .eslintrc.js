@@ -8,8 +8,14 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: ['prettier', 'eslint:recommended'],
-  plugins: ['svelte3'],
+  extends: [
+    'airbnb-base',
+    'prettier',
+    'eslint:recommended',
+    'plugin:jest/recommended',
+    'plugin:sonarjs/recommended',
+  ],
+  plugins: ['svelte3', 'jest', 'sonarjs'],
   overrides: [
     {
       files: ['*.svelte'],
@@ -18,5 +24,10 @@ module.exports = {
   ],
   rules: {
     quotes: [2, 'single', 'avoid-escape'],
+    'jest/no-disabled-tests': 'warn',
+    'jest/no-focused-tests': 'error',
+    'jest/no-identical-title': 'error',
+    'jest/prefer-to-have-length': 'warn',
+    'jest/valid-expect': 'error',
   },
 };
