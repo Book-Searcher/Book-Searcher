@@ -43,9 +43,9 @@ export async function preload({ params }) {
 
   if (res.status === 200) {
     return { post: data };
-  } else {
+  } 
     this.error(res.status, data.message);
-  }
+  
 }
 </script>
 

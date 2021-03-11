@@ -5,6 +5,7 @@ posts.forEach((post) => {
   lookup.set(post.slug, JSON.stringify(post));
 });
 
+// eslint-disable-next-line no-unused-vars
 export function get(req, res, next) {
   // the `slug` parameter is available because
   // this file is called [slug].json.js
@@ -23,7 +24,7 @@ export function get(req, res, next) {
 
     res.end(
       JSON.stringify({
-        message: `Not found`,
+        message: 'Not found',
       })
     );
   }

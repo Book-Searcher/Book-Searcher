@@ -40,8 +40,8 @@ A web service, which helps you to search books using sorting and different filte
 - PostgreSQL
 - JWT(JSON Web Tokens)
 - Fuse.js
-- Google API
-  (Google API and Maps are involved in project to show the store on map and to show the path to it.)
+- Google API  
+   (Google API and Maps are involved in project to show the store on map and to show the path to it.)  
   (Google API Books are involved in project to show the books and info)
 
 ![image](https://drive.google.com/uc?export=view&id=1oBZwB-OxBLn_Tcyvn3yBC8dUCLKHa-aA)
