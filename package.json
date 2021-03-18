@@ -7,8 +7,8 @@
     "build": "sapper build --legacy",
     "start": "node __sapper__/build",
     "format": "prettier --write ./**/*.{js,svelte,html,css,json}",
-    "lint": "eslint src/index.js",
-    "lint:fix": "eslint --fix src/index.js",
+    "lint": "eslint ./**/*.{js,svelte}",
+    "lint:fix": "eslint --fix ./**/*.{js,svelte}",
     "test": "jest"
   },
   "repository": {

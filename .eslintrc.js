@@ -9,7 +9,6 @@ module.exports = {
     node: true,
   },
   extends: [
-    'airbnb-base',
     'prettier',
     'eslint:recommended',
     'plugin:jest/recommended',
