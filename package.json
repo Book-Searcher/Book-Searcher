@@ -6,7 +6,8 @@
     "dev": "sapper dev",
     "build": "sapper build --legacy",
     "start": "node __sapper__/build",
-    "format": "prettier --write ./**/*.{js,svelte,html,css,json}",
+    "prettier": " prettier --check ./**/*.{js,svelte,html,css,json}",
+    "prettier:fix": "prettier --write ./**/*.{js,svelte,html,css,json}",
     "lint": "eslint ./**/*.{js,svelte}",
     "lint:fix": "eslint --fix ./**/*.{js,svelte}",
     "test": "jest"
@@ -71,8 +72,8 @@
   },
   "lint-staged": {
     "**/*.{ts,js}": [
+      "npm run prettier",
       "npm run lint",
-      "npm run format",
       "git add"
     ]
   }
