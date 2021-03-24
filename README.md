@@ -47,6 +47,4 @@ A web service, which helps you to search books using sorting and different filte
     -JWT(JSON Web Tokens)
     -Sapper
     -Fuse.js
-![image](https://drive.google.com/uc?export=view&id=1rRxYfspDsPmOwT0VXHDDkQBHZhin61Cv)
-
-
+![image](https://drive.google.com/uc?export=view&id=1Q6NMFyMQnKc-K4pB67eeF3jO6bo8eQrw)
