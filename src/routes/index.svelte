@@ -45,7 +45,7 @@ import successkid from 'images/successkid.jpg';
 <h1>Great success!</h1>
 
 <figure>
-  <img alt="Success Kid" src="{successkid}" />
+  <img alt="Success Kid" src={successkid} />
   <figcaption>Have fun with Sapper!</figcaption>
 </figure>
 
