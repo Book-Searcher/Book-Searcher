@@ -10,10 +10,12 @@ jobs:
       - uses: actions/setup-node@v1
         name: 'setup node'
         with:
-          node-version: '13.x'
+          node-version: '14.x'
 
-      - name: 'install'
-        run: npm i
+      - name: 'ci'
+        run: npm ci
+      - name: 'prettier'
+        run: npm run prettier
       - name: 'lint'
         run: npm run lint
       - name: 'test'
