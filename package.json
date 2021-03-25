@@ -1,0 +1,80 @@
+{
+  "name": "book-searcher",
+  "description": "A web service, which helps you to search books using sorting and different filters and to find where you can read them. If you want to buy a book in the paper version, this service will propose the nearest store and the store with lowest price based on your location. You can use this app not only as authorized user, but also as a guest. Unfortunately, in this case you will not be allowed to rate and save products to your Favorites List.",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "sapper dev",
+    "build": "sapper build --legacy",
+    "start": "node __sapper__/build",
+    "prettier": " prettier --check ./**/*.{js,svelte,html,css,json}",
+    "prettier:fix": "prettier --write ./**/*.{js,svelte,html,css,json}",
+    "lint": "eslint ./**/*.{js,svelte}",
+    "lint:fix": "eslint --fix ./**/*.{js,svelte}",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Book-Searcher/Book-Searcher.git"
+  },
+  "keywords": [],
+  "author": "Valeriia Morkvina, Mariia Som",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Book-Searcher/Book-Searcher/issues"
+  },
+  "homepage": "https://github.com/Book-Searcher/Book-Searcher#readme",
+  "dependencies": {
+    "compression": "^1.7.1",
+    "polka": "next",
+    "sirv": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.13.10",
+    "@babel/runtime": "^7.0.0",
+    "@rollup/plugin-babel": "^5.0.0",
+    "@rollup/plugin-commonjs": "^14.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-replace": "^2.4.0",
+    "@rollup/plugin-url": "^5.0.0",
+    "@testing-library/svelte": "^3.0.3",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.21.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.2.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-sonarjs": "^0.6.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "eslint-plugin-svelte3": "^3.1.2",
+    "husky": "^4.3.8",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1",
+    "prettier-plugin-svelte": "^2.2.0",
+    "rollup": "^2.3.4",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "sapper": "^0.28.0",
+    "svelte": "^3.17.3",
+    "svelte-jester": "^1.3.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
+    }
+  },
+  "lint-staged": {
+    "**/*.{ts,js}": [
+      "npm run prettier",
+      "npm run lint",
+      "git add"
+    ]
+  }
+}
