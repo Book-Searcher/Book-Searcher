@@ -18,6 +18,15 @@
   text-align: center;
   border-radius: 50px;
 }
+.close {
+  font-size: x-large;
+  float: right;
+  cursor: pointer;
+  margin-right: 20px;
+}
+.close:hover {
+  font-weight: bold;
+}
 </style>
 
 <script>
@@ -33,6 +42,7 @@ export function hide() {
 {#if shown}
   <div class="sign-wrapper">
     <div class="sign">
+      <span class="close" on:click="{() => hide()}">&times;</span>
       <slot />
     </div>
   </div>
