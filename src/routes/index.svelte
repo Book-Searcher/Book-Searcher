@@ -45,13 +45,8 @@ import successkid from 'images/successkid.jpg';
 <h1>Book Searcher</h1>
 
 <figure>
-<<<<<<< HEAD
   <img alt="Success Kid" src="{successkid}" />
   <figcaption>Find any book!</figcaption>
-=======
-  <img alt="Success Kid" src={successkid} />
-  <figcaption>Have fun with Sapper!</figcaption>
->>>>>>> d7a7ccec0980cac98cf9d9c8ce98568a65936518
 </figure>
 
 <p>
