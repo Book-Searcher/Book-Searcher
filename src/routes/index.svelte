@@ -39,17 +39,16 @@ import successkid from 'images/successkid.jpg';
 </script>
 
 <svelte:head>
-  <title>Sapper project template</title>
+  <title>Book Searcher</title>
 </svelte:head>
 
-<h1>Great success!</h1>
+<h1>Book Searcher</h1>
 
 <figure>
   <img alt="Success Kid" src="{successkid}" />
-  <figcaption>Have fun with Sapper!</figcaption>
+  <figcaption>Find any book!</figcaption>
 </figure>
 
 <p>
-  <strong
-    >Try editing this file (src/routes/index.svelte) to test live reloading.</strong>
+  <strong>Try to apply not existing filters...</strong>
 </p>
