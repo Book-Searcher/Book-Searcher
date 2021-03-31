@@ -101,25 +101,25 @@ let signUp;
     </li> -->
     <li>
       <a
-        aria-current="{segment === 'readList' ? 'page' : undefined}"
+        aria-current={segment === 'readList' ? 'page' : undefined}
         href="readList">Read List</a>
     </li>
     <li>
       <a
-        aria-current="{segment === 'readList' ? 'page' : undefined}"
+        aria-current={segment === 'readList' ? 'page' : undefined}
         href="wantToReadList">WantToRead List</a>
     </li>
     <li>
       <a
-        aria-current="{segment === 'readList' ? 'page' : undefined}"
+        aria-current={segment === 'readList' ? 'page' : undefined}
         href="favList">Favourites List</a>
     </li>
     <li>
-      <a aria-current="{segment === undefined ? 'page' : undefined}" href=".">
+      <a aria-current={segment === undefined ? 'page' : undefined} href=".">
         Search</a>
     </li>
-    <li id="signIn" on:click="{() => signIn.show()}">Sign In</li>
-    <Sign bind:this="{signIn}">
+    <li id="signIn" on:click={() => signIn.show()}>Sign In</li>
+    <Sign bind:this={signIn}>
       <h1>Sign In</h1>
       <form>
         <label for="email">Email Address</label><br />
@@ -133,13 +133,13 @@ let signUp;
       </form>
       <p>
         Do not have an account? <span
-          on:click="{() => {
+          on:click={() => {
             signUp.show();
             signIn.hide();
-          }}">Sign Up</span>
+          }}>Sign Up</span>
       </p>
     </Sign>
-    <Sign bind:this="{signUp}">
+    <Sign bind:this={signUp}>
       <h1>Sign Up</h1>
       <form>
         <label for="email">Email Address</label><br />
@@ -153,10 +153,10 @@ let signUp;
       </form>
       <p>
         Already have an account? <span
-          on:click="{() => {
+          on:click={() => {
             signUp.hide();
             signIn.show();
-          }}">Sign In</span>
+          }}>Sign In</span>
       </p>
     </Sign>
   </ul>

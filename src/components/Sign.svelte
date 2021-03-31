@@ -42,7 +42,7 @@ export function hide() {
 {#if shown}
   <div class="sign-wrapper">
     <div class="sign">
-      <span class="close" on:click="{() => hide()}">&times;</span>
+      <span class="close" on:click={() => hide()}>&times;</span>
       <slot />
     </div>
   </div>
