@@ -27,11 +27,11 @@ li {
   margin-top: 0.35em;
   padding: 0.5em 0.7em 0.5em 0.7em;
   display: block;
-  border: 2px solid rgb(255, 62, 0);
+  border: 2px solid rgb(247, 130, 62);
 }
 
 #signIn:hover {
-  background-color: rgb(255, 62, 0);
+  background-color: rgb(247, 130, 62);
   color: white;
 }
 
@@ -47,7 +47,7 @@ li {
   height: 2px;
   background-color: rgb(255, 62, 0);
   display: block;
-  bottom: -1px;
+  bottom: 5px;
 }
 
 a {
@@ -95,10 +95,10 @@ let signUp;
 
 <nav>
   <ul>
-    <!-- <li>
-      <a aria-current="{segment === 'about' ? 'page' : undefined}" href="about"
-        >about</a>
-    </li> -->
+    <li>
+      <a aria-current={segment === 'about' ? 'page' : undefined} href="about"
+        >About</a>
+    </li>
     <li>
       <a
         aria-current={segment === 'readList' ? 'page' : undefined}
@@ -106,12 +106,12 @@ let signUp;
     </li>
     <li>
       <a
-        aria-current={segment === 'readList' ? 'page' : undefined}
+        aria-current={segment === 'wantToReadList' ? 'page' : undefined}
         href="wantToReadList">WantToRead List</a>
     </li>
     <li>
       <a
-        aria-current={segment === 'readList' ? 'page' : undefined}
+        aria-current={segment === 'favList' ? 'page' : undefined}
         href="favList">Favourites List</a>
     </li>
     <li>
