@@ -43,9 +43,3 @@ A web service, which helps you to search books using sorting and different filte
 - Google API  
    (Google API and Maps are involved in project to show the store on map and to show the path to it.)  
   (Google API Books are involved in project to show the books and info)
-
-### Use Case diagram:
-![image](https://drive.google.com/uc?export=view&id=1Q6NMFyMQnKc-K4pB67eeF3jO6bo8eQrw)
-
-### ER diagram:
-![image](https://drive.google.com/uc?export=view&id=1duU58xOduSvlQAKuI722bSZcGvhKKOb8)
