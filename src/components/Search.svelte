@@ -22,15 +22,29 @@
   background: #fff;
   color: rgb(247, 130, 62);
 }
+.close {
+  position: relative;
+  right: 3%;
+  top: 0.3vw;
+  font-size: 1.5em;
+}
+.close:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
 </style>
 
 <script>
 import { books } from '../store/store.js';
+
 let searchText = '';
 
-function searchBooks(text) {
+function searchBooks() {
   let url = `https://www.googleapis.com/books/v1/volumes?q=
-       ${text.replace(/ /g, '+')}&key=AIzaSyCvAVFHWN1O04iMY1_BwQDP8xSXnUyJ4q8`;
+       ${searchText.replace(
+         / /g,
+         '+'
+       )}&key=AIzaSyCvAVFHWN1O04iMY1_BwQDP8xSXnUyJ4q8`;
   fetch(url)
     .then((response) => response.json())
     .then((result) => {
@@ -41,14 +55,23 @@ function searchBooks(text) {
       console.error('ERROR: ' + error);
     });
 }
+function clearText() {
+  books.set([]);
+  searchText = '';
+}
+function changeText() {
+  books.set([]);
+}
 </script>
 
 <form class="Search">
   <input
     id="searchBar"
-    type="Search"
+    type="text"
     name="Search"
     placeholder="Title, author, ..."
-    bind:value={searchText} />
-  <button on:click|preventDefault={searchBooks(searchText)}>Search</button>
+    bind:value={searchText}
+    on:change={() => changeText()} />
+  <span class="close" on:click={() => clearText()}>&times;</span>
+  <button on:click|preventDefault={() => searchBooks()}>Search</button>
 </form>

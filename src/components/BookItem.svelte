@@ -62,6 +62,7 @@
 
 <script>
 import author from '../../static/suspect.png';
+import fileIcon from '../../static/fileIcon.png';
 export let book;
 let thumbnailUrl;
 const { volumeInfo } = book;
@@ -71,8 +72,7 @@ if (imageLinks) {
   const { thumbnail } = imageLinks;
   thumbnailUrl = thumbnail;
 } else {
-  thumbnailUrl =
-    'https://www.flaticon.com/svg/vstatic/svg/3979/3979301.svg?token=exp=1617482585~hmac=faeafff5994d2b5e23998cd1c777981b';
+  thumbnailUrl = fileIcon;
 }
 </script>
 
