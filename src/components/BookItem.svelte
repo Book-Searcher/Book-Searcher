@@ -63,8 +63,10 @@
 <script>
 import author from '../../static/suspect.png';
 import fileIcon from '../../static/fileIcon.png';
+import View from './View.svelte';
 export let book;
 let thumbnailUrl;
+let view;
 const { volumeInfo } = book;
 const { title, imageLinks, authors } = volumeInfo;
 
@@ -77,11 +79,18 @@ if (imageLinks) {
 </script>
 
 <div class="book-item">
-  <h3 class="title">{title.substring(0, 25)}</h3>
+  <h3 class="title">
+    {#if title.length > 25}
+      {title.substring(0, 25)}...
+    {:else}
+      {title}
+    {/if}
+  </h3>
   <div class="bookImg">
     <img src={thumbnailUrl} alt="cover" />
     <div class="buttons-container">
-      <button class="viewButton">View</button>
+      <button class="viewButton" on:click={() => view.show()}>View</button>
+      <View bind:this={view} wholeinfo={book} />
       <button class="listButton">WantToReadList</button>
       <button class="listButton">ReadList</button>
       <button class="listButton">FavList</button>

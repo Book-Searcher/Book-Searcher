@@ -1,5 +1,5 @@
 <style>
-.sign-wrapper {
+.view-wrapper {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.6);
   position: fixed;
@@ -8,12 +8,12 @@
   top: 0;
   left: 0;
 }
-.sign {
+.view {
   background-color: white;
-  width: 30%;
-  height: 50%;
+  width: 80%;
+  height: 87%;
   padding: 1rem;
-  margin: 12% auto;
+  margin: 2% auto;
   text-align: center;
   border-radius: 50px;
 }
@@ -26,9 +26,26 @@
 .close:hover {
   font-weight: bold;
 }
+#comment {
+  background-color: brown;
+  width: 40%;
+  height: 15vw;
+}
 </style>
 
 <script>
+export let wholeinfo;
+const { volumeInfo } = wholeinfo;
+const { title, imageLinks, authors } = volumeInfo;
+let thumbnailUrl;
+
+if (imageLinks) {
+  const { thumbnail } = imageLinks;
+  thumbnailUrl = thumbnail;
+} else {
+  thumbnailUrl = fileIcon;
+}
+
 let shown = false;
 export function show() {
   shown = true;
@@ -39,9 +56,12 @@ export function hide() {
 </script>
 
 {#if shown}
-  <div class="sign-wrapper">
-    <div class="sign">
+  <div class="view-wrapper">
+    <div class="view">
       <span class="close" on:click={() => hide()}>&times;</span>
+      <div>{title}</div>
+      <img src={thumbnailUrl} alt="cover" />
+      <div id="comment" />
       <slot />
     </div>
   </div>
