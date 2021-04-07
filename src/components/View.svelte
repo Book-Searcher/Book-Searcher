@@ -26,19 +26,10 @@
 .close:hover {
   font-weight: bold;
 }
-.viewContainer {
-  display: grid;
-  grid-template-columns: 0.5fr 1.5fr;
-}
-#comment {
-  background-color: brown;
-  width: 50%;
-  height: 20vw;
-}
-#bookImg {
-  height: 18vw;
-  width: 14vw;
-  margin-top: 9%;
+#description {
+  width: 55vw;
+  height: 5vw;
+  resize: none;
 }
 #title {
   font-size: 1.3em;
@@ -57,11 +48,49 @@
   text-align: left;
   padding-left: 0;
   width: 80%;
+  font-size: 1.1vw;
+  margin: 0;
 }
-#description {
-  width: 55vw;
-  height: 5vw;
+.viewContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas:
+    'image description description description'
+    'comment comment map map';
+}
+#bookinfo {
+  grid-area: description;
+  height: 18vw;
+}
+#bookImg {
+  margin-left: 10%;
+  height: 18vw;
+  width: 13vw;
+  grid-area: 'image';
+}
+#comment {
+  background-color: wheat;
+  grid-area: comment;
+  text-align: left;
+}
+#mycomment textarea {
+  width: 28vw;
+  height: 3vw;
   resize: none;
+  margin: 2%;
+}
+#mycomment {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+#mycomment button {
+  margin: 15% 10%;
+  width: 8vw;
+}
+#map {
+  grid-area: map;
+  background-color: plum;
 }
 </style>
 
@@ -119,7 +148,7 @@ export function hide() {
             <li>
               <b>Description: </b>
               {#if description}
-                <textarea id="description">{description}</textarea>
+                <textarea id="description" readonly>{description}</textarea>
               {:else}
                 Unknown
               {/if}
@@ -140,7 +169,13 @@ export function hide() {
             </li>
           </ul>
         </div>
-        <div id="comment" />
+        <div id="comment">
+          <div id="mycomment">
+            <textarea placeholder="Leave a comment" />
+            <button>submit</button>
+          </div>
+        </div>
+        <div id="map" />
       </div>
       <slot />
     </div>
