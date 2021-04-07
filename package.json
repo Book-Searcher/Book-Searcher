@@ -25,6 +25,7 @@
   "homepage": "https://github.com/Book-Searcher/Book-Searcher#readme",
   "dependencies": {
     "compression": "^1.7.1",
+    "dotenv": "^8.2.0",
     "polka": "next",
     "sirv": "^1.0.0"
   },
@@ -55,6 +56,7 @@
     "husky": "^4.3.8",
     "jest": "^26.6.3",
     "lint-staged": "^10.5.4",
+    "mongoose": "^5.12.3",
     "prettier": "^2.2.1",
     "prettier-plugin-svelte": "^2.2.0",
     "rollup": "^2.3.4",
@@ -62,7 +64,8 @@
     "rollup-plugin-terser": "^7.0.0",
     "sapper": "^0.28.0",
     "svelte": "^3.17.3",
-    "svelte-jester": "^1.3.0"
+    "svelte-jester": "^1.3.0",
+    "validator": "^13.5.2"
   },
   "husky": {
     "hooks": {
