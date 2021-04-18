@@ -48,11 +48,22 @@
 }
 .title {
   font-weight: bold;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 300px;
 }
 .author {
   margin-top: 5px;
   display: flex;
   align-items: baseline;
+  text-align: left;
+}
+.author h4 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 270px;
+  overflow: hidden;
 }
 .author img {
   height: 10%;
@@ -80,11 +91,7 @@ if (imageLinks) {
 
 <div class="book-item">
   <h3 class="title">
-    {#if title.length > 25}
-      {title.substring(0, 25)}...
-    {:else}
-      {title}
-    {/if}
+    {title}
   </h3>
   <div class="bookImg">
     <img src={thumbnailUrl} alt="cover" />

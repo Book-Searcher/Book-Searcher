@@ -75,10 +75,10 @@
   text-align: left;
 }
 #mycomment textarea {
-  width: 28vw;
-  height: 3vw;
   resize: none;
   margin: 2%;
+  min-width: 28vw;
+  min-height: 3vw;
 }
 #mycomment {
   display: grid;
