@@ -84,19 +84,84 @@ span {
   color: rgb(255, 62, 0);
   text-decoration: underline;
 }
+.notification {
+  width: 20vw;
+  height: 3vw;
+  line-height: 3vw;
+  border-radius: 20px;
+  margin: 1vw auto;
+  background-color: rgba(255, 0, 0, 0.637);
+  text-align: center;
+}
+.notification span {
+  color: aliceblue;
+  text-decoration: none;
+  font-weight: 600;
+}
+.notification-wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+#closeNotification {
+  font-weight: bold;
+  cursor: pointer;
+}
+#closeNotification:hover {
+  color: black;
+}
 </style>
 
 <script>
 export let segment;
 import Sign from './Sign.svelte';
-let signIn;
-let signUp;
+
+let showSignInModal = false;
+let showSignUpModal = false;
+let email = '';
+let password = '';
+let showNotification = false;
+
+async function handleSignUp() {
+  try {
+    if (!(await isSameUser(email))) {
+      await fetch('search.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      showSignUpModal = false;
+      showSignInModal = true;
+    } else {
+      showNotification = true;
+    }
+  } catch (e) {
+    console.error(e.message);
+  }
+}
+
+async function isSameUser(email) {
+  let isExists = false;
+  try {
+    const res = await fetch('search.json');
+    const allUsers = await res.json();
+    allUsers.forEach((user) => {
+      if (user.email == email) isExists = true;
+    });
+    return isExists;
+  } catch (e) {
+    console.error(e.message);
+  }
+}
 </script>
 
 <nav>
   <ul>
     <li>
-      <a aria-current={segment === 'about' ? 'page' : undefined} href="about"
+      <a aria-current={segment === undefined ? 'page' : undefined} href="."
         >About</a>
     </li>
     <li>
@@ -115,49 +180,75 @@ let signUp;
         href="favList">Favourites List</a>
     </li>
     <li>
-      <a aria-current={segment === undefined ? 'page' : undefined} href=".">
+      <a aria-current={segment === 'search' ? 'page' : undefined} href="search">
         Search</a>
     </li>
-    <li id="signIn" on:click={() => signIn.show()}>Sign In</li>
-    <Sign bind:this={signIn}>
+    <li id="signIn" on:click={() => (showSignInModal = true)}>Sign In</li>
+
+    <Sign shown={showSignInModal} on:click={() => (showSignInModal = false)}>
       <h1>Sign In</h1>
       <form>
         <label for="email">Email Address</label><br />
-        <input type="email" placeholder="Email Address" name="email" /><br />
+        <input
+          type="email"
+          placeholder="Email Address"
+          name="email"
+          required /><br />
         <label for="password">Password</label><br />
         <input
           type="password"
           placeholder="Password"
-          name="password" /><br /><br />
-        <button>Apply</button>
+          name="password"
+          required /><br /><br />
+        <button type="submit">Apply</button>
       </form>
       <p>
-        Do not have an account? <span
+        Do not have an account?
+        <span
           on:click={() => {
-            signUp.show();
-            signIn.hide();
+            showSignUpModal = true;
+            showSignInModal = false;
           }}>Sign Up</span>
       </p>
     </Sign>
-    <Sign bind:this={signUp}>
+
+    <Sign shown={showSignUpModal} on:click={() => (showSignUpModal = false)}>
       <h1>Sign Up</h1>
-      <form>
+      <form on:submit|preventDefault={handleSignUp}>
         <label for="email">Email Address</label><br />
-        <input type="email" placeholder="Email Address" name="email" /><br />
+        <input
+          bind:value={email}
+          type="email"
+          placeholder="Email Address"
+          name="email"
+          required /><br />
         <label for="password">Password</label><br />
         <input
+          bind:value={password}
           type="password"
           placeholder="Password"
-          name="password" /><br /><br />
-        <button>Apply</button>
+          name="password"
+          minlength="6"
+          required /><br /><br />
+        <button type="submit">Apply</button>
       </form>
       <p>
         Already have an account? <span
           on:click={() => {
-            signUp.hide();
-            signIn.show();
+            showSignUpModal = false;
+            showSignInModal = true;
           }}>Sign In</span>
       </p>
     </Sign>
+    {#if showNotification}
+      <div class="notification-wrapper">
+        <div class="notification">
+          <span>User is already exists</span>
+          <span
+            id="closeNotification"
+            on:click={() => (showNotification = false)}>&times;</span>
+        </div>
+      </div>
+    {/if}
   </ul>
 </nav>

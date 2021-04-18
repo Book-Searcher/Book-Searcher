@@ -1,32 +1,12 @@
-<style>
-h2 {
-  text-align: center;
-  margin: 0 auto;
-}
-
-h2 {
-  font-size: 1.5em;
-  font-weight: 700;
-  margin: 0 0 0.5em 0;
-}
-
-@media (min-width: 480px) {
-  h2 {
-    font-size: 2.5em;
-  }
-}
-</style>
-
-<script>
-import Search from '../components/Search.svelte';
-import BookContainer from '../components/BookContainer.svelte';
-</script>
-
 <svelte:head>
-  <title>Book Searcher</title>
+  <title>About</title>
 </svelte:head>
-<main>
-  <h2>Book Searcher</h2>
-  <Search />
-  <BookContainer />
-</main>
+<h1>What is Book Searcher?📚</h1>
+<p>
+  A web service, which helps you to search books using sorting and different
+  filters and to find where you can read them. If you want to buy a book in the
+  paper version, this service will propose the nearest store and the store with
+  lowest price based on your location. You can use this app not only as
+  authorized user, but also as a guest. Unfortunately, in this case you will not
+  be allowed to rate and save products to your Favorites List.
+</p>

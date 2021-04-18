@@ -18,11 +18,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     minlength: 6,
     trim: true,
-    validate(value) {
-      if (value.toLowerCase().includes('password')) {
-        throw new Error('Your password cannot contain the word password.');
-      }
-    },
   },
 });
 
@@ -32,6 +27,4 @@ userSchema.virtual('books', {
   foreignField: 'owner',
 });
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+export const User = mongoose.model('User', userSchema);

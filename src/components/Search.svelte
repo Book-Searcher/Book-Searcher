@@ -23,14 +23,12 @@
   color: rgb(247, 130, 62);
 }
 .close {
-  position: relative;
-  right: 3%;
-  top: 0.3vw;
-  font-size: 1.5em;
+  font-size: 1.2em;
+  cursor: pointer;
+  font-weight: bold;
 }
 .close:hover {
-  font-weight: bold;
-  cursor: pointer;
+  color: red;
 }
 </style>
 
