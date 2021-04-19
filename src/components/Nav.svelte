@@ -10,7 +10,6 @@ ul {
   padding: 0;
 }
 
-/* clearfix */
 ul::after {
   content: '';
   display: block;
@@ -84,43 +83,18 @@ span {
   color: rgb(255, 62, 0);
   text-decoration: underline;
 }
-.notification {
-  width: 20vw;
-  height: 3vw;
-  line-height: 3vw;
-  border-radius: 20px;
-  margin: 1vw auto;
-  background-color: rgba(255, 0, 0, 0.637);
-  text-align: center;
-}
-.notification span {
-  color: aliceblue;
-  text-decoration: none;
-  font-weight: 600;
-}
-.notification-wrapper {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-}
-#closeNotification {
-  font-weight: bold;
-  cursor: pointer;
-}
-#closeNotification:hover {
-  color: black;
-}
 </style>
 
 <script>
 export let segment;
 import Sign from './Sign.svelte';
+import Notification from './Notification.svelte';
 
 let showSignInModal = false;
 let showSignUpModal = false;
 let email = '';
 let password = '';
-let showNotification = false;
+let wrongUserNotif = false;
 
 async function handleSignUp() {
   try {
@@ -135,8 +109,10 @@ async function handleSignUp() {
       });
       showSignUpModal = false;
       showSignInModal = true;
+      email = '';
+      password = '';
     } else {
-      showNotification = true;
+      wrongUserNotif = true;
     }
   } catch (e) {
     console.error(e.message);
@@ -240,15 +216,8 @@ async function isSameUser(email) {
           }}>Sign In</span>
       </p>
     </Sign>
-    {#if showNotification}
-      <div class="notification-wrapper">
-        <div class="notification">
-          <span>User is already exists</span>
-          <span
-            id="closeNotification"
-            on:click={() => (showNotification = false)}>&times;</span>
-        </div>
-      </div>
-    {/if}
+    <Notification
+      showNotification={wrongUserNotif}
+      message="User is already exists" />
   </ul>
 </nav>
