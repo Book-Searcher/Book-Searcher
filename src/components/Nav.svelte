@@ -4,18 +4,15 @@ nav {
   font-weight: 300;
   padding: 0 1em;
 }
-
 ul {
   margin: 0;
   padding: 0;
 }
-
 ul::after {
   content: '';
   display: block;
   clear: both;
 }
-
 li {
   display: block;
   float: right;
@@ -28,17 +25,14 @@ li {
   display: block;
   border: 2px solid rgb(247, 130, 62);
 }
-
 #signIn:hover {
   background-color: rgb(247, 130, 62);
   color: white;
 }
-
 [aria-current] {
   position: relative;
   display: inline-block;
 }
-
 [aria-current]::after {
   position: absolute;
   content: '';
@@ -48,36 +42,10 @@ li {
   display: block;
   bottom: 5px;
 }
-
 a {
   text-decoration: none;
   padding: 1em 0.5em;
   display: block;
-}
-h1 {
-  color: rgb(255, 62, 0);
-  text-shadow: 2px 1px 0px rgba(0, 0, 0, 0.3);
-}
-form label {
-  font-weight: bold;
-}
-form input {
-  padding: 0.5em;
-  margin-bottom: 0.4em;
-  background: rgb(247, 130, 62);
-  border: 2px solid rgb(107, 42, 5);
-  color: #fff;
-}
-input::placeholder {
-  color: #fff;
-}
-button {
-  padding: 0.5em;
-  font-weight: bold;
-  background-color: floralwhite;
-  color: rgb(59, 29, 11);
-  border-radius: 8px;
-  font-size: large;
 }
 span {
   color: rgb(255, 62, 0);
@@ -95,6 +63,8 @@ let showSignUpModal = false;
 let email = '';
 let password = '';
 let wrongUserNotif = false;
+let wrongEmailNotif = false;
+let wrongPassNotif = false;
 
 async function handleSignUp() {
   try {
@@ -132,6 +102,26 @@ async function isSameUser(email) {
     console.error(e.message);
   }
 }
+
+async function handleSignIn() {
+  try {
+    const res = await fetch('search.json');
+    const allUsers = await res.json();
+    allUsers.forEach((user) => {
+      if (user.email == email && user.password == password) {
+        showSignInModal = false;
+        email = '';
+        password = '';
+      } else if (user.email == email && user.password != password) {
+        wrongPassNotif = true;
+      } else {
+        wrongEmailNotif = true;
+      }
+    });
+  } catch (e) {
+    console.error(e.message);
+  }
+}
 </script>
 
 <nav>
@@ -161,23 +151,13 @@ async function isSameUser(email) {
     </li>
     <li id="signIn" on:click={() => (showSignInModal = true)}>Sign In</li>
 
-    <Sign shown={showSignInModal} on:click={() => (showSignInModal = false)}>
-      <h1>Sign In</h1>
-      <form>
-        <label for="email">Email Address</label><br />
-        <input
-          type="email"
-          placeholder="Email Address"
-          name="email"
-          required /><br />
-        <label for="password">Password</label><br />
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          required /><br /><br />
-        <button type="submit">Apply</button>
-      </form>
+    <Sign
+      shown={showSignInModal}
+      on:click={() => (showSignInModal = false)}
+      name="Sing In"
+      email={email}
+      password={password}
+      on:submit={handleSignIn}>
       <p>
         Do not have an account?
         <span
@@ -188,36 +168,31 @@ async function isSameUser(email) {
       </p>
     </Sign>
 
-    <Sign shown={showSignUpModal} on:click={() => (showSignUpModal = false)}>
-      <h1>Sign Up</h1>
-      <form on:submit|preventDefault={handleSignUp}>
-        <label for="email">Email Address</label><br />
-        <input
-          bind:value={email}
-          type="email"
-          placeholder="Email Address"
-          name="email"
-          required /><br />
-        <label for="password">Password</label><br />
-        <input
-          bind:value={password}
-          type="password"
-          placeholder="Password"
-          name="password"
-          minlength="6"
-          required /><br /><br />
-        <button type="submit">Apply</button>
-      </form>
+    <Sign
+      shown={showSignUpModal}
+      on:click={() => (showSignUpModal = false)}
+      name="Sing Up"
+      email={email}
+      password={password}
+      on:submit={handleSignUp}>
       <p>
-        Already have an account? <span
+        Already have an account?
+        <span
           on:click={() => {
             showSignUpModal = false;
             showSignInModal = true;
           }}>Sign In</span>
       </p>
     </Sign>
+
     <Notification
       showNotification={wrongUserNotif}
       message="User is already exists" />
+    <Notification
+      showNotification={wrongEmailNotif}
+      message="Email is incorrect" />
+    <Notification
+      showNotification={wrongPassNotif}
+      message=" Password is incorrect" />
   </ul>
 </nav>
