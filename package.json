@@ -6,6 +6,7 @@
     "dev": "sapper dev",
     "build": "sapper build --legacy",
     "start": "node __sapper__/build",
+    "export": "sapper export",
     "prettier": " prettier --check ./**/*.{js,svelte,html,css,json}",
     "prettier:fix": "prettier --write ./**/*.{js,svelte,html,css,json}",
     "lint": "eslint ./**/*.{js,svelte}",

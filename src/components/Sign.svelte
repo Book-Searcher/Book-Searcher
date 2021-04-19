@@ -46,9 +46,9 @@ button {
 
 <script>
 export let shown = false;
+export let name = '';
 export let email = '';
 export let password = '';
-export let name = '';
 </script>
 
 {#if shown}
@@ -73,6 +73,7 @@ export let name = '';
           required /><br /><br />
         <button type="submit">Apply</button>
       </form>
+
       <slot />
     </div>
   </div>

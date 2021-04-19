@@ -16,6 +16,7 @@ export async function get(req, res) {
     }
   });
 }
+
 export async function post(req, res) {
   try {
     const user = req.body;

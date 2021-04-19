@@ -17,7 +17,7 @@ li {
   display: block;
   float: right;
 }
-#signIn {
+.signButton {
   float: left;
   text-decoration: none;
   margin-top: 0.35em;
@@ -25,7 +25,7 @@ li {
   display: block;
   border: 2px solid rgb(247, 130, 62);
 }
-#signIn:hover {
+.signButton:hover {
   background-color: rgb(247, 130, 62);
   color: white;
 }
@@ -57,6 +57,7 @@ span {
 export let segment;
 import Sign from './Sign.svelte';
 import Notification from './Notification.svelte';
+import { islog } from '../store/store';
 
 let showSignInModal = false;
 let showSignUpModal = false;
@@ -107,17 +108,18 @@ async function handleSignIn() {
   try {
     const res = await fetch('search.json');
     const allUsers = await res.json();
-    allUsers.forEach((user) => {
-      if (user.email == email && user.password == password) {
-        showSignInModal = false;
-        email = '';
-        password = '';
-      } else if (user.email == email && user.password != password) {
-        wrongPassNotif = true;
-      } else {
-        wrongEmailNotif = true;
-      }
-    });
+    const emailCheck = allUsers.some((user) => user.email === email);
+    const passCheck = allUsers.some((user) => user.password === password);
+    if (emailCheck && passCheck) {
+      showSignInModal = false;
+      email = '';
+      password = '';
+      islog.set(true);
+    } else if (emailCheck && !passCheck) {
+      wrongPassNotif = true;
+    } else {
+      wrongEmailNotif = true;
+    }
   } catch (e) {
     console.error(e.message);
   }
@@ -149,14 +151,20 @@ async function handleSignIn() {
       <a aria-current={segment === 'search' ? 'page' : undefined} href="search">
         Search</a>
     </li>
-    <li id="signIn" on:click={() => (showSignInModal = true)}>Sign In</li>
+    {#if $islog}
+      <li class="signButton" on:click={() => islog.set(false)}>Log out</li>
+    {:else}
+      <li class="signButton" on:click={() => (showSignInModal = true)}>
+        Sign In
+      </li>
+    {/if}
 
     <Sign
       shown={showSignInModal}
       on:click={() => (showSignInModal = false)}
-      name="Sing In"
-      email={email}
-      password={password}
+      name="Sign In"
+      bind:email
+      bind:password
       on:submit={handleSignIn}>
       <p>
         Do not have an account?
@@ -171,9 +179,9 @@ async function handleSignIn() {
     <Sign
       shown={showSignUpModal}
       on:click={() => (showSignUpModal = false)}
-      name="Sing Up"
-      email={email}
-      password={password}
+      name="Sign Up"
+      bind:email
+      bind:password
       on:submit={handleSignUp}>
       <p>
         Already have an account?
