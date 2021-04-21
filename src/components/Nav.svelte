@@ -106,20 +106,30 @@ async function isSameUser(email) {
 
 async function handleSignIn() {
   try {
-    const res = await fetch('search.json');
-    const allUsers = await res.json();
-    const emailCheck = allUsers.some((user) => user.email === email);
-    const passCheck = allUsers.some((user) => user.password === password);
-    if (emailCheck && passCheck) {
-      showSignInModal = false;
-      email = '';
-      password = '';
-      islog.set(true);
-    } else if (emailCheck && !passCheck) {
-      wrongPassNotif = true;
-    } else {
-      wrongEmailNotif = true;
-    }
+    // const res = await fetch('search.json');
+    // const allUsers = await res.json();
+    // const emailCheck = allUsers.some((user) => user.email === email);
+    // const passCheck = allUsers.some((user) => user.password === password);
+    // if (emailCheck && passCheck) {
+    //   showSignInModal = false;
+    //   email = '';
+    //   password = '';
+    //   islog.set(true);
+    // } else if (emailCheck && !passCheck) {
+    //   wrongPassNotif = true;
+    // } else {
+    //   wrongEmailNotif = true;
+    // }
+    const res = await fetch('login.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    const user = await res.json();
+    console.log(user);
   } catch (e) {
     console.error(e.message);
   }
