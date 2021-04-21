@@ -25,8 +25,10 @@
   },
   "homepage": "https://github.com/Book-Searcher/Book-Searcher#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "compression": "^1.7.1",
     "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
     "polka": "next",
     "sirv": "^1.0.0"
   },

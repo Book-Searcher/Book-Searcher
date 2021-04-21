@@ -22,9 +22,11 @@ export async function post(req, res) {
     const user = req.body;
     await connectToDB();
     const userToAdd = new User(user);
-    const result = await userToAdd.save();
+    await userToAdd.save();
+    const token = await userToAdd.generateAuthToken();
+    const data = [userToAdd, token];
     await disconnectToDB();
-    res.end(JSON.stringify(result));
+    res.end(JSON.stringify(data));
   } catch (error) {
     res.writeHead(500, contentType);
     res.end(JSON.stringify({ error: error }));

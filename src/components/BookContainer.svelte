@@ -18,9 +18,6 @@ import BookItem from './BookItem.svelte';
 </script>
 
 <div class="book-container">
-  <!-- {#if $loading}
-    <h2 class="loading-text">Loading...</h2>
-  {/if} -->
   {#each $books as book}
     <BookItem book={book} />
   {:else}
