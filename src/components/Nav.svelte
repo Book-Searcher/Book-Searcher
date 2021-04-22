@@ -64,8 +64,8 @@ let showSignUpModal = false;
 let email = '';
 let password = '';
 let wrongUserNotif = false;
-let wrongEmailNotif = false;
-let wrongPassNotif = false;
+let wrongNotif = false;
+let notifMessage = '';
 
 async function handleSignUp() {
   try {
@@ -106,20 +106,6 @@ async function isSameUser(email) {
 
 async function handleSignIn() {
   try {
-    // const res = await fetch('search.json');
-    // const allUsers = await res.json();
-    // const emailCheck = allUsers.some((user) => user.email === email);
-    // const passCheck = allUsers.some((user) => user.password === password);
-    // if (emailCheck && passCheck) {
-    //   showSignInModal = false;
-    //   email = '';
-    //   password = '';
-    //   islog.set(true);
-    // } else if (emailCheck && !passCheck) {
-    //   wrongPassNotif = true;
-    // } else {
-    //   wrongEmailNotif = true;
-    // }
     const res = await fetch('login.json', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -128,8 +114,16 @@ async function handleSignIn() {
         password,
       }),
     });
-    const user = await res.json();
-    console.log(user);
+    const result = await res.json();
+    if (result.error == 'Wrong email' || result.error == 'Wrong password') {
+      notifMessage = result.error;
+      wrongNotif = true;
+    } else {
+      showSignInModal = false;
+      email = '';
+      password = '';
+      islog.set(true);
+    }
   } catch (e) {
     console.error(e.message);
   }
@@ -206,11 +200,6 @@ async function handleSignIn() {
     <Notification
       showNotification={wrongUserNotif}
       message="User is already exists" />
-    <Notification
-      showNotification={wrongEmailNotif}
-      message="Email is incorrect" />
-    <Notification
-      showNotification={wrongPassNotif}
-      message=" Password is incorrect" />
+    <Notification showNotification={wrongNotif} message={notifMessage} />
   </ul>
 </nav>

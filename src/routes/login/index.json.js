@@ -11,9 +11,15 @@ export async function post(req, res) {
     const token = await userToLog.generateAuthToken();
     const data = [userToLog, token];
     await disconnectToDB();
+    res.writeHead(200, { authorization: token });
     res.end(JSON.stringify(data));
   } catch (error) {
-    res.writeHead(500, contentType);
-    res.end(JSON.stringify({ error: error }));
+    await disconnectToDB();
+    if (error instanceof Error) {
+      res.end(JSON.stringify({ error: error.message }));
+    } else {
+      res.writeHead(500, contentType);
+      res.end(JSON.stringify({ error: error }));
+    }
   }
 }
