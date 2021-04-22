@@ -47,18 +47,20 @@ userSchema.methods.generateAuthToken = async function () {
   return token;
 };
 
-userSchema.statics.findUser = async (email, password) => {
-  const user = await User.find({ email });
-  console.log(user);
-  if (!user) {
+userSchema.statics.findUser = async (user) => {
+  const email = user.email;
+  const password = user.password;
+
+  const foundUser = await User.findOne({ email });
+  if (!foundUser) {
     throw new Error('Unable to login.');
   }
-  const isMatch = await bcrypt.compare(password, user.password);
-  console.log(isMatch);
+
+  const isMatch = await bcrypt.compare(password, foundUser.password);
   if (!isMatch) {
     throw new Error('Unable to login.');
   }
-  return user;
+  return foundUser;
 };
 
 userSchema.pre('save', async function (next) {
