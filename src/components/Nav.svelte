@@ -63,42 +63,27 @@ let showSignInModal = false;
 let showSignUpModal = false;
 let email = '';
 let password = '';
-let wrongUserNotif = false;
 let wrongNotif = false;
 let notifMessage = '';
 
 async function handleSignUp() {
   try {
-    if (!(await isSameUser(email))) {
-      await fetch('search.json', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+    const res = await fetch('search.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    const result = await res.json();
+    if (result.error == 'User is already exists') {
+      notifMessage = result.error;
+      wrongNotif = true;
+    } else {
       showSignUpModal = false;
       showSignInModal = true;
-      email = '';
-      password = '';
-    } else {
-      wrongUserNotif = true;
     }
-  } catch (e) {
-    console.error(e.message);
-  }
-}
-
-async function isSameUser(email) {
-  let isExists = false;
-  try {
-    const res = await fetch('search.json');
-    const allUsers = await res.json();
-    allUsers.forEach((user) => {
-      if (user.email == email) isExists = true;
-    });
-    return isExists;
   } catch (e) {
     console.error(e.message);
   }
@@ -198,8 +183,8 @@ async function handleSignIn() {
     </Sign>
 
     <Notification
-      showNotification={wrongUserNotif}
-      message="User is already exists" />
-    <Notification showNotification={wrongNotif} message={notifMessage} />
+      showNotification={wrongNotif}
+      message={notifMessage}
+      on:click={() => (wrongNotif = false)} />
   </ul>
 </nav>

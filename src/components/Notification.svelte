@@ -36,8 +36,7 @@ export let message = '';
   <div class="notification-wrapper">
     <div class="notification">
       <span>{message}</span>
-      <span id="closeNotification" on:click={() => (showNotification = false)}
-        >&times;</span>
+      <span id="closeNotification" on:click>&times;</span>
     </div>
   </div>
 {/if}
