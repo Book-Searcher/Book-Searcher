@@ -75,6 +75,9 @@
 import author from '../../static/suspect.png';
 import fileIcon from '../../static/fileIcon.png';
 import View from './View.svelte';
+import { stores } from '@sapper/app';
+
+const { session } = stores();
 export let book;
 let thumbnailUrl;
 let view;
@@ -86,6 +89,21 @@ if (imageLinks) {
   thumbnailUrl = thumbnail;
 } else {
   thumbnailUrl = fileIcon;
+}
+
+async function addBookToFavList() {
+  // console.log('Test' + $session.token);
+  await fetch('favList.json', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': $session.token,
+    },
+    body: JSON.stringify({
+      title,
+      owner: $session.userId,
+    }),
+  });
 }
 </script>
 
@@ -100,7 +118,7 @@ if (imageLinks) {
       <View bind:this={view} wholeinfo={book} />
       <button class="listButton">WantToReadList</button>
       <button class="listButton">ReadList</button>
-      <button class="listButton">FavList</button>
+      <button class="listButton" on:click={addBookToFavList}>FavList</button>
     </div>
   </div>
   <div class="author">
