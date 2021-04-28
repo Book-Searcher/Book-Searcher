@@ -16,6 +16,7 @@ export async function post(req, res) {
   } catch (error) {
     await disconnectToDB();
     if (error instanceof Error) {
+      res.writeHead(400, contentType);
       res.end(JSON.stringify({ error: error.message }));
     } else {
       res.writeHead(500, contentType);

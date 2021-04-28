@@ -29,11 +29,6 @@ const bookSchema = new mongoose.Schema({
   link: {
     type: String,
   },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'User',
-  },
 });
 
 export const Book = mongoose.model('Book', bookSchema);

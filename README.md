@@ -13,19 +13,14 @@ A web service, which helps you to search books using sorting and different filte
   - Guest
   - Authorized user
 - As Guest you allowed to
-  - Book search:
-    - Filter by title, author, genre etc
-    - Sort books by year, average price, alphabet etc
+  - search books:
+    - Sort books by date
     - Use logical operators (OR, AND, NOT)
-  - Find where you can read them
-  - Find where you can buy them in the paper version using Google maps
 - As Authorized user you allowed to
   - Do all things that guest user can do
   - Put a tick on the read books
   - Rate read books
-  - Save books to your Favorites List
-  - Share a book on Social Networks
-  - Leave a book review
+  - Save books to your Lists (Favorites, WantToRead, Read)
   - Estimate personally reading progress - sheets/day (user marks a desired full time and how many days a week he is going to read)
 
 ### <ins> NFR </ins>:
@@ -37,12 +32,10 @@ A web service, which helps you to search books using sorting and different filte
 ### <ins> Technologies </ins>:
 
 - Sapper&Svelte
-- PostgreSQL
+- MongoDB
 - JWT(JSON Web Tokens)
-- Fuse.js
-- Google API  
-   (Google API and Maps are involved in project to show the store on map and to show the path to it.)  
-  (Google API Books are involved in project to show the books and info)
-  
+- Google API Books (to show the books and info)
+
 ### Use Case diagram:
+
 ![image](https://drive.google.com/uc?export=view&id=1Q6NMFyMQnKc-K4pB67eeF3jO6bo8eQrw)

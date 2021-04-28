@@ -148,6 +148,7 @@ async function handleSignIn() {
     </li>
     <li>
       <a
+        rel="prefetch"
         aria-current={segment === 'favList' ? 'page' : undefined}
         href="favList">Favourites List</a>
     </li>

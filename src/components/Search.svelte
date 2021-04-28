@@ -46,8 +46,9 @@ function searchBooks() {
   fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      console.log(result);
       books.set(result.items);
+
+      console.log($books);
     })
     .catch((error) => {
       console.error('ERROR: ' + error);

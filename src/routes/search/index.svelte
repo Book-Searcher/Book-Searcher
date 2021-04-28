@@ -20,6 +20,7 @@ h2 {
 <script>
 import Search from '../../components/Search.svelte';
 import BookContainer from '../../components/BookContainer.svelte';
+import { books } from '../../store/store';
 </script>
 
 <svelte:head>
@@ -28,5 +29,5 @@ import BookContainer from '../../components/BookContainer.svelte';
 <main>
   <h2>Book Searcher</h2>
   <Search />
-  <BookContainer />
+  <BookContainer allBooks={$books} />
 </main>

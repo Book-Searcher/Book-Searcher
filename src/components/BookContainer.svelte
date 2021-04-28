@@ -13,12 +13,12 @@ p {
 </style>
 
 <script>
-import { books } from '../store/store.js';
 import BookItem from './BookItem.svelte';
+export let allBooks;
 </script>
 
 <div class="book-container">
-  {#each $books as book}
+  {#each allBooks as book}
     <BookItem book={book} />
   {:else}
     <p>

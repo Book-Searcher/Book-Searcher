@@ -75,17 +75,57 @@
 import author from '../../static/suspect.png';
 import fileIcon from '../../static/fileIcon.png';
 import View from './View.svelte';
+import Notification from './Notification.svelte';
 export let book;
 let thumbnailUrl;
 let view;
 const { volumeInfo } = book;
-const { title, imageLinks, authors } = volumeInfo;
+const {
+  title,
+  imageLinks,
+  authors,
+  publishedDate,
+  pageCount,
+  //categories,
+  description,
+  language,
+  previewLink,
+} = volumeInfo;
+let wrongNotif = false;
+let notifMessage = '';
 
 if (imageLinks) {
   const { thumbnail } = imageLinks;
   thumbnailUrl = thumbnail;
 } else {
   thumbnailUrl = fileIcon;
+}
+
+let userId = '6080aa0b03cde855141b955d';
+async function addBookToFavList() {
+  try {
+    const res = await fetch('favList.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        owner: userId,
+        title,
+        publishedDate,
+        description,
+        language,
+        pageCount,
+        img: thumbnailUrl,
+        link: previewLink,
+      }),
+    });
+    const result = await res.json();
+    if (result.error == 'The book already exists') {
+      notifMessage = result.error;
+      wrongNotif = true;
+    }
+  } catch (e) {
+    console.error(e.message);
+  }
 }
 </script>
 
@@ -100,7 +140,7 @@ if (imageLinks) {
       <View bind:this={view} wholeinfo={book} />
       <button class="listButton">WantToReadList</button>
       <button class="listButton">ReadList</button>
-      <button class="listButton">FavList</button>
+      <button class="listButton" on:click={addBookToFavList}>FavList</button>
     </div>
   </div>
   <div class="author">
@@ -112,5 +152,6 @@ if (imageLinks) {
         {authors}
       {/if}
     </h4>
+    <Notification showNotification={wrongNotif} message={notifMessage} />
   </div>
 </div>

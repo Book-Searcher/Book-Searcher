@@ -69,29 +69,6 @@
   width: 13vw;
   grid-area: 'image';
 }
-#comment {
-  background-color: wheat;
-  grid-area: comment;
-  text-align: left;
-}
-#mycomment textarea {
-  resize: none;
-  margin: 2%;
-  min-width: 28vw;
-  min-height: 3vw;
-}
-#mycomment {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-}
-#mycomment button {
-  margin: 15% 10%;
-  width: 8vw;
-}
-#map {
-  grid-area: map;
-  background-color: plum;
-}
 </style>
 
 <script>
@@ -169,15 +146,7 @@ export function hide() {
             </li>
           </ul>
         </div>
-        <div id="comment">
-          <div id="mycomment">
-            <textarea placeholder="Leave a comment" />
-            <button>submit</button>
-          </div>
-        </div>
-        <div id="map" />
       </div>
-      <slot />
     </div>
   </div>
 {/if}
