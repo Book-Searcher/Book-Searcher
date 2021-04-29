@@ -9,10 +9,15 @@ export async function post(req, res) {
     await connectToDB();
     const userToLog = await User.findUser(user);
     const token = await userToLog.generateAuthToken();
-    const data = [userToLog, token];
+    const data = {
+      id: userToLog._id,
+      email: userToLog.email,
+      accessToken: token,
+    };
     await disconnectToDB();
-    res.writeHead(200, { authorization: token });
-    res.end(JSON.stringify(data));
+    req.session.token = data.accessToken;
+    req.session.userId = data.id;
+    res.writeHead(200).end(JSON.stringify(data));
   } catch (error) {
     await disconnectToDB();
     if (error instanceof Error) {

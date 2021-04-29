@@ -57,48 +57,35 @@ span {
 export let segment;
 import Sign from './Sign.svelte';
 import Notification from './Notification.svelte';
-import { islog } from '../store/store';
+import { stores } from '@sapper/app';
+
+const { session } = stores();
 
 let showSignInModal = false;
 let showSignUpModal = false;
 let email = '';
 let password = '';
-let wrongUserNotif = false;
 let wrongNotif = false;
 let notifMessage = '';
 
 async function handleSignUp() {
   try {
-    if (!(await isSameUser(email))) {
-      await fetch('search.json', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+    const res = await fetch('search.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    const result = await res.json();
+    if (result.error == 'User is already exists') {
+      notifMessage = result.error;
+      wrongNotif = true;
+    } else {
       showSignUpModal = false;
       showSignInModal = true;
-      email = '';
-      password = '';
-    } else {
-      wrongUserNotif = true;
     }
-  } catch (e) {
-    console.error(e.message);
-  }
-}
-
-async function isSameUser(email) {
-  let isExists = false;
-  try {
-    const res = await fetch('search.json');
-    const allUsers = await res.json();
-    allUsers.forEach((user) => {
-      if (user.email == email) isExists = true;
-    });
-    return isExists;
   } catch (e) {
     console.error(e.message);
   }
@@ -115,17 +102,35 @@ async function handleSignIn() {
       }),
     });
     const result = await res.json();
+
     if (result.error == 'Wrong email' || result.error == 'Wrong password') {
       notifMessage = result.error;
       wrongNotif = true;
+    } else if (!result.accessToken) {
+      notifMessage = 'Something Went Wrong';
+      wrongNotif = true;
     } else {
+      $session.token = result.accessToken;
       showSignInModal = false;
       email = '';
       password = '';
-      islog.set(true);
     }
   } catch (e) {
     console.error(e.message);
+  }
+}
+async function handleSignOut() {
+  try {
+    session.set({});
+  } catch (e) {
+    console.error(e.message);
+  }
+}
+function handlePermission() {
+  if (!$session.token) {
+    showSignInModal = true;
+    wrongNotif = true;
+    notifMessage = 'Firstly, you have to log in';
   }
 }
 </script>
@@ -139,25 +144,28 @@ async function handleSignIn() {
     <li>
       <a
         aria-current={segment === 'readList' ? 'page' : undefined}
-        href="readList">Read List</a>
+        href="readList"
+        on:click={handlePermission}>Read List</a>
     </li>
     <li>
       <a
         aria-current={segment === 'wantToReadList' ? 'page' : undefined}
-        href="wantToReadList">WantToRead List</a>
+        href="wantToReadList"
+        on:click={handlePermission}>WantToRead List</a>
     </li>
     <li>
       <a
         rel="prefetch"
         aria-current={segment === 'favList' ? 'page' : undefined}
-        href="favList">Favourites List</a>
+        href="favList"
+        on:click={handlePermission}>Favourites List</a>
     </li>
     <li>
       <a aria-current={segment === 'search' ? 'page' : undefined} href="search">
         Search</a>
     </li>
-    {#if $islog}
-      <li class="signButton" on:click={() => islog.set(false)}>Log out</li>
+    {#if $session.token}
+      <li class="signButton" on:click={handleSignOut}>Log out</li>
     {:else}
       <li class="signButton" on:click={() => (showSignInModal = true)}>
         Sign In
@@ -199,8 +207,8 @@ async function handleSignIn() {
     </Sign>
 
     <Notification
-      showNotification={wrongUserNotif}
-      message="User is already exists" />
-    <Notification showNotification={wrongNotif} message={notifMessage} />
+      showNotification={wrongNotif}
+      message={notifMessage}
+      on:click={() => (wrongNotif = false)} />
   </ul>
 </nav>

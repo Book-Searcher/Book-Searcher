@@ -75,7 +75,10 @@
 import author from '../../static/suspect.png';
 import fileIcon from '../../static/fileIcon.png';
 import View from './View.svelte';
-import Notification from './Notification.svelte';
+//import Notification from './Notification.svelte';
+import { stores } from '@sapper/app';
+
+const { session } = stores();
 export let book;
 let thumbnailUrl;
 let view;
@@ -91,8 +94,8 @@ const {
   language,
   previewLink,
 } = volumeInfo;
-let wrongNotif = false;
-let notifMessage = '';
+// let wrongNotif = false;
+// let notifMessage = '';
 
 if (imageLinks) {
   const { thumbnail } = imageLinks;
@@ -101,14 +104,16 @@ if (imageLinks) {
   thumbnailUrl = fileIcon;
 }
 
-let userId = '6080aa0b03cde855141b955d';
 async function addBookToFavList() {
   try {
-    const res = await fetch('favList.json', {
+    await fetch('favList.json', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': $session.token,
+      },
       body: JSON.stringify({
-        owner: userId,
+        owner: $session.userId,
         title,
         publishedDate,
         description,
@@ -118,11 +123,11 @@ async function addBookToFavList() {
         link: previewLink,
       }),
     });
-    const result = await res.json();
-    if (result.error == 'The book already exists') {
-      notifMessage = result.error;
-      wrongNotif = true;
-    }
+    //const result = await res.json();
+    // if (result.error == 'The book already exists') {
+    //   notifMessage = result.error;
+    //   wrongNotif = true;
+    // }
   } catch (e) {
     console.error(e.message);
   }
@@ -152,6 +157,6 @@ async function addBookToFavList() {
         {authors}
       {/if}
     </h4>
-    <Notification showNotification={wrongNotif} message={notifMessage} />
+    <!-- <Notification showNotification={wrongNotif} message={notifMessage} /> -->
   </div>
 </div>

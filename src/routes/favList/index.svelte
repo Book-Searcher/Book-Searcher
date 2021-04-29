@@ -1,32 +1,32 @@
 <script context="module">
-export async function preload() {
+export async function preload(page, session) {
   try {
-    const res = await fetch('favList.json');
-    if (res.ok) {
-      const books = await res.json();
-      let favBooks = [];
+    const res = await this.fetch('favList.json', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': session.token,
+      },
+    });
+    const books = await res.json();
 
-      books.forEach((book) => {
-        favBooks.push({
-          volumeInfo: {
-            title: book.title,
-            authors: book.authors,
-            publishedDate: book.publishedDate,
-            description: book.description,
-            categories: book.categories,
-            language: book.language,
-            pageCount: book.pageCount,
-            imageLinks: { thumbnail: book.img },
-            link: book.link,
-          },
-        });
+    let favBooks = [];
+    books.forEach((book) => {
+      favBooks.push({
+        volumeInfo: {
+          title: book.title,
+          authors: book.authors,
+          publishedDate: book.publishedDate,
+          description: book.description,
+          categories: book.categories,
+          language: book.language,
+          pageCount: book.pageCount,
+          imageLinks: { thumbnail: book.img },
+          link: book.link,
+        },
       });
-      console.log(favBooks);
-      return { favBooks };
-    } else {
-      const msg = await res.text();
-      this.error(res.statusCode, msg);
-    }
+    });
+    return { favBooks };
   } catch (e) {
     this.error(500, e.message);
   }
