@@ -85,7 +85,7 @@ const {
   pageCount,
   previewLink,
 } = volumeInfo;
-import fileIcon from '../../static/fileIcon.png';
+import fileIcon from '@static/fileIcon.png';
 let thumbnailUrl;
 
 if (imageLinks) {

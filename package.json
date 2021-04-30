@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/Book-Searcher/Book-Searcher#readme",
   "dependencies": {
+    "@rollup/plugin-alias": "^3.1.2",
+    "@rollup/plugin-image": "^2.0.6",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.1",
     "dotenv": "^8.2.0",
@@ -63,6 +65,7 @@
     "jest": "^26.6.3",
     "lint-staged": "^10.5.4",
     "mongoose": "^5.12.3",
+    "node-fetch": "^2.6.1",
     "prettier": "^2.2.1",
     "prettier-plugin-svelte": "^2.2.0",
     "rollup": "^2.3.4",

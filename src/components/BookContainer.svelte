@@ -13,7 +13,7 @@ p {
 </style>
 
 <script>
-import BookItem from './BookItem.svelte';
+import BookItem from '@components/BookItem.svelte';
 export let allBooks;
 </script>
 

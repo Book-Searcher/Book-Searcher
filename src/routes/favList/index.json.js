@@ -1,6 +1,6 @@
-import { connectToDB, disconnectToDB } from '../../db/_mongo';
-import { FavList } from '../../models/favList';
-import { Book } from '../../models/book';
+import { connectToDB, disconnectToDB } from '@db/_mongo.js';
+import { FavList } from '@models/favList.js';
+import { Book } from '@models/book.js';
 
 export async function get(req, res) {
   try {
@@ -79,8 +79,7 @@ export async function post(req, res) {
 async function checkBook(favList, book) {
   let duplicate = false;
   favList.books.forEach(async (bookItem) => {
-    let foundedBook = await Book.findOne({ _id: bookItem.book });
-    if (foundedBook && foundedBook._id === book._id) duplicate = true;
+    if (String(bookItem.book) == String(book._id)) duplicate = true;
   });
   return duplicate;
 }

@@ -18,9 +18,9 @@ h2 {
 </style>
 
 <script>
-import Search from '../../components/Search.svelte';
-import BookContainer from '../../components/BookContainer.svelte';
-import { books } from '../../store/store';
+import Search from '@components/Search.svelte';
+import BookContainer from '@components/BookContainer.svelte';
+import { books } from '@store';
 </script>
 
 <svelte:head>

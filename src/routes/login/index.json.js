@@ -1,5 +1,5 @@
-import { connectToDB, disconnectToDB } from '../../db/_mongo';
-import { User } from '../../models/user';
+import { connectToDB, disconnectToDB } from '@db/_mongo.js';
+import { User } from '@models/user.js';
 
 const contentType = { 'Content-Type': 'application/json' };
 

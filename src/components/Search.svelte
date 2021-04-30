@@ -33,22 +33,24 @@
 </style>
 
 <script>
-import { books } from '../store/store.js';
+import { books } from '@store';
 
 let searchText = '';
 
-function searchBooks() {
-  let url = `https://www.googleapis.com/books/v1/volumes?q=
-       ${searchText.replace(
-         / /g,
-         '+'
-       )}&key=AIzaSyCvAVFHWN1O04iMY1_BwQDP8xSXnUyJ4q8`;
-  fetch(url)
+async function searchBooks() {
+  let text = searchText.replace(/ /g, '+');
+  await fetch('search.json', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      text,
+    }),
+  })
     .then((response) => response.json())
     .then((result) => {
-      books.set(result.items);
-
-      console.log($books);
+      books.set(result);
     })
     .catch((error) => {
       console.error('ERROR: ' + error);

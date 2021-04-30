@@ -72,10 +72,10 @@
 </style>
 
 <script>
-import author from '../../static/suspect.png';
-import fileIcon from '../../static/fileIcon.png';
-import View from './View.svelte';
-//import Notification from './Notification.svelte';
+import author from '@static/suspect.png';
+import fileIcon from '@static/fileIcon.png';
+import View from '@components/View.svelte';
+//import Notification from '@components/Notification.svelte';
 import { stores } from '@sapper/app';
 
 const { session } = stores();

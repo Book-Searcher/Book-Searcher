@@ -55,8 +55,8 @@ span {
 
 <script>
 export let segment;
-import Sign from './Sign.svelte';
-import Notification from './Notification.svelte';
+import Sign from '@components/Sign.svelte';
+import Notification from '@components/Notification.svelte';
 import { stores } from '@sapper/app';
 
 const { session } = stores();
@@ -70,7 +70,7 @@ let notifMessage = '';
 
 async function handleSignUp() {
   try {
-    const res = await fetch('search.json', {
+    const res = await fetch('registration.json', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

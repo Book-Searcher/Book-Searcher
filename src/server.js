@@ -4,7 +4,7 @@ import compression from 'compression';
 import * as sapper from '@sapper/server';
 import session from 'express-session';
 import sessionFileStore from 'session-file-store';
-import { verifyToken } from './utils/authJwt';
+import { verifyToken } from '@utils/authJwt.js';
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';

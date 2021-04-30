@@ -35,7 +35,7 @@ export async function preload(page, session) {
 
 <script>
 export let favBooks;
-import BookContainer from '../../components/BookContainer.svelte';
+import BookContainer from '@components/BookContainer.svelte';
 </script>
 
 <BookContainer allBooks={favBooks} />
