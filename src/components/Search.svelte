@@ -7,8 +7,8 @@
   height: 2.2em;
 }
 .Search button {
-  width: 10%;
-  height: 2.3em;
+  min-width: 10%;
+  min-height: 2.3em;
   border-radius: 10px;
   font-size: 16px;
   font-weight: bold;

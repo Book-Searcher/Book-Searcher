@@ -73,7 +73,6 @@ export let password = '';
           required /><br /><br />
         <button type="submit">Apply</button>
       </form>
-
       <slot />
     </div>
   </div>

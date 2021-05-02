@@ -11,9 +11,9 @@
 .view {
   background-color: white;
   width: 80%;
-  height: 87%;
+  height: 65%;
   padding: 1rem;
-  margin: 2% auto;
+  margin: 7% auto;
   border-radius: 50px;
 }
 .close {
@@ -49,7 +49,7 @@
   padding-left: 0;
   width: 80%;
   font-size: 1.1vw;
-  margin: 0;
+  margin-left: 2vw;
 }
 .viewContainer {
   display: grid;
@@ -63,16 +63,32 @@
   grid-area: description;
   height: 18vw;
 }
-.bookImg {
+.fallback {
+  background-image: url('/fileIcon.png');
+  display: inline-block;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
   margin-left: 10%;
-  height: 18vw;
-  width: 13vw;
+  min-height: 25vw;
+  min-width: 13vw;
   grid-area: 'image';
+}
+.book_image {
+  width: 100%;
+  height: 100%;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.viewContainer input {
+  width: 8vw;
 }
 </style>
 
 <script>
 export let wholeinfo;
+export let shown = false;
 const { volumeInfo } = wholeinfo;
 const {
   title,
@@ -85,32 +101,30 @@ const {
   pageCount,
   previewLink,
 } = volumeInfo;
-import fileIcon from '@static/fileIcon.png';
-let thumbnailUrl;
+let days;
+let estimation;
+let thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
 
-if (imageLinks) {
-  const { thumbnail } = imageLinks;
-  thumbnailUrl = thumbnail;
-} else {
-  thumbnailUrl = fileIcon;
-}
-
-let shown = false;
-export function show() {
-  shown = true;
-}
-export function hide() {
-  shown = false;
+function estimateProgress() {
+  estimation = pageCount
+    ? (pageCount / days).toFixed(1)
+    : 'There is no info about page count';
 }
 </script>
 
 {#if shown}
   <div class="view-wrapper">
     <div class="view">
-      <span class="close" on:click={() => hide()}>&times;</span>
+      <span class="close" on:click>&times;</span>
       <div class="title"><b>"{title}"</b></div>
       <div class="viewContainer">
-        <img class="bookImg" src={thumbnailUrl} alt="cover" />
+        <div class="book_image_container fallback">
+          <img
+            class="book_image"
+            src="data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+            style="background-image: url({thumbnailUrl})"
+            alt />
+        </div>
         <div class="bookinfo">
           <ul>
             <li>
@@ -143,6 +157,18 @@ export function hide() {
             <li>
               <b>Book preview: </b><a class="previewLink" href={previewLink}
                 >link</a>
+            </li>
+            <li>
+              <b>Estimate personally reading progress: </b>
+              <input
+                bind:value={days}
+                type="number"
+                placeholder="days number"
+                min="1" />
+              <button on:click={() => estimateProgress()}>estimate</button>
+              {#if estimation != undefined}
+                = {estimation}
+              {/if}
             </li>
           </ul>
         </div>

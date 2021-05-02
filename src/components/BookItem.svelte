@@ -88,10 +88,10 @@ import author from '@static/suspect.png';
 import View from '@components/View.svelte';
 //import Notification from '@components/Notification.svelte';
 import { stores } from '@sapper/app';
-
-const { session } = stores();
 export let book;
-let view;
+const { session } = stores();
+let shownView = false;
+
 const { volumeInfo } = book;
 const {
   title,
@@ -152,8 +152,12 @@ async function addBookToFavList() {
         alt />
     </div>
     <div class="buttons-container">
-      <button class="viewButton" on:click={() => view.show()}>View</button>
-      <View bind:this={view} wholeinfo={book} />
+      <button class="viewButton" on:click={() => (shownView = true)}
+        >View</button>
+      <View
+        shown={shownView}
+        on:click={() => (shownView = false)}
+        wholeinfo={book} />
       <button class="listButton">WantToReadList</button>
       <button class="listButton">ReadList</button>
       <button class="listButton" on:click={addBookToFavList}>FavList</button>
