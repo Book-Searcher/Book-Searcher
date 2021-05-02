@@ -27,7 +27,7 @@
   font-weight: bold;
 }
 .description {
-  width: 55vw;
+  width: 95%;
   height: 5vw;
   resize: none;
 }
@@ -47,7 +47,7 @@
   list-style-type: none;
   text-align: left;
   padding-left: 0;
-  width: 80%;
+  width: 95%;
   font-size: 1.1vw;
   margin-left: 2vw;
 }
@@ -62,6 +62,9 @@
 .bookinfo {
   grid-area: description;
   height: 18vw;
+}
+.bookinfo span {
+  color: rgb(74, 132, 241);
 }
 .fallback {
   background-image: url('/fileIcon.png');
@@ -167,7 +170,7 @@ function estimateProgress() {
                 min="1" />
               <button on:click={() => estimateProgress()}>estimate</button>
               {#if estimation != undefined}
-                = {estimation}
+                <span> = {estimation}</span>
               {/if}
             </li>
           </ul>

@@ -34,27 +34,32 @@
 
 <script>
 import { books } from '@store';
-
+import { alert } from '@store';
 let searchText = '';
 
 async function searchBooks() {
-  let text = searchText.replace(/ /g, '+');
-  await fetch('search.json', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      text,
-    }),
-  })
-    .then((response) => response.json())
-    .then((result) => {
-      books.set(result);
+  if (searchText) {
+    let text = searchText.replace(/ /g, '+');
+    await fetch('search.json', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text,
+      }),
     })
-    .catch((error) => {
-      console.error('ERROR: ' + error);
-    });
+      .then((response) => response.json())
+      .then((result) => {
+        books.set(result);
+      })
+      .catch((error) => {
+        console.error('ERROR: ' + error);
+      });
+  } else {
+    $alert = 'Please enter something';
+    console.log($alert);
+  }
 }
 function clearText() {
   books.set([]);
