@@ -106,6 +106,7 @@ const {
 } = volumeInfo;
 const { saleInfo } = wholeinfo;
 const { buyLink, listPrice } = saleInfo;
+
 let days;
 let estimation;
 let thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';

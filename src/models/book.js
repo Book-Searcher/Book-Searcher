@@ -29,6 +29,15 @@ const bookSchema = new mongoose.Schema({
   link: {
     type: String,
   },
+  buyLink: {
+    type: String,
+  },
+  amount: {
+    type: String,
+  },
+  currencyCode: {
+    type: String,
+  },
 });
 
 export const Book = mongoose.model('Book', bookSchema);

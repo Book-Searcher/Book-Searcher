@@ -1,7 +1,7 @@
 <script context="module">
 export async function preload(page, session) {
   try {
-    const res = await this.fetch('list.json?type=wantToReadList', {
+    const res = await this.fetch('list.json?type=favList', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -57,5 +57,5 @@ if (listBooks[0] && listBooks[0].error) {
 </script>
 
 {#if listBooks[0] && listBooks[0].error != 'List is empty😥'}
-  <BookContainer allBooks={listBooks} type="wantToReadList" showDelBut="true" />
+  <BookContainer allBooks={listBooks} type="favList" showDelBut="true" />
 {/if}

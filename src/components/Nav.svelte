@@ -24,6 +24,7 @@ li {
   padding: 0.5em 0.7em 0.5em 0.7em;
   display: block;
   border: 2px solid rgb(247, 130, 62);
+  cursor: pointer;
 }
 .signButton:hover {
   background-color: rgb(247, 130, 62);

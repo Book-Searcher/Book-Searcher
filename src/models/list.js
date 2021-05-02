@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const favListSchema = new mongoose.Schema({
+const listSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -15,6 +15,10 @@ const favListSchema = new mongoose.Schema({
       },
     },
   ],
+  type: {
+    type: String,
+    required: true,
+  },
 });
 
-export const FavList = mongoose.model('FavList', favListSchema);
+export const List = mongoose.model('List', listSchema);

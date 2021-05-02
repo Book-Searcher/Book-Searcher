@@ -82,6 +82,13 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
+.deleteButton {
+  background: rgb(212, 20, 20);
+  color: #fff;
+}
+.deleteButton:hover {
+  background: rgb(173, 16, 16);
+}
 </style>
 
 <script>
@@ -90,6 +97,8 @@ import View from '@components/View.svelte';
 import { alert } from '@store';
 import { stores } from '@sapper/app';
 export let book;
+export let type;
+export let showDelBut = false;
 const { session } = stores();
 let shownView = false;
 
@@ -100,17 +109,21 @@ const {
   authors,
   publishedDate,
   pageCount,
-  //categories,
+  categories,
   description,
   language,
   previewLink,
 } = volumeInfo;
 
+const { saleInfo } = book;
+const { buyLink, listPrice } = saleInfo;
+
 let thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
 
-async function addBookToFavList() {
+async function addBookToList(event) {
   try {
-    const res = await fetch('favList.json', {
+    let type = event.target.name;
+    const res = await fetch(`list.json?type=${type}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -125,13 +138,37 @@ async function addBookToFavList() {
         pageCount,
         img: thumbnailUrl,
         link: previewLink,
+        authors: authors ? authors.join() : 'Unknown',
+        categories: categories ? categories.join() : 'Unknown',
+        buyLink,
+        amount: listPrice ? listPrice.amount : 'Not for sale',
+        currencyCode: listPrice ? listPrice.currencyCode : '',
       }),
     });
+
     const result = await res.json();
     if (result.error == 'The book already exists') {
       $alert = result.error;
       console.log($alert);
     }
+  } catch (e) {
+    console.error(e.message);
+  }
+}
+async function deleteFromList(event) {
+  try {
+    let type = event.target.name;
+    await fetch(`list.json?type=${type}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': $session.token,
+      },
+      body: JSON.stringify({
+        owner: $session.userId,
+        _id: book._id,
+      }),
+    });
   } catch (e) {
     console.error(e.message);
   }
@@ -157,9 +194,16 @@ async function addBookToFavList() {
         shown={shownView}
         on:click={() => (shownView = false)}
         wholeinfo={book} />
-      <button class="listButton">WantToReadList</button>
-      <button class="listButton">ReadList</button>
-      <button class="listButton" on:click={addBookToFavList}>FavList</button>
+      <button class="listButton" name="wantToReadList" on:click={addBookToList}
+        >WantToReadList</button>
+      <button class="listButton" name="readList" on:click={addBookToList}
+        >ReadList</button>
+      <button class="listButton" name="favList" on:click={addBookToList}
+        >FavList</button>
+      {#if showDelBut}
+        <button class="deleteButton" name={type} on:click={deleteFromList}
+          >Delete</button>
+      {/if}
     </div>
   </div>
   <div class="author">
