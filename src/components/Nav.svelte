@@ -58,15 +58,13 @@ export let segment;
 import Sign from '@components/Sign.svelte';
 import Notification from '@components/Notification.svelte';
 import { stores } from '@sapper/app';
-
+import { alert } from '@store';
 const { session } = stores();
 
 let showSignInModal = false;
 let showSignUpModal = false;
 let email = '';
 let password = '';
-let wrongNotif = false;
-let notifMessage = '';
 
 async function handleSignUp() {
   try {
@@ -80,8 +78,7 @@ async function handleSignUp() {
     });
     const result = await res.json();
     if (result.error == 'User is already exists') {
-      notifMessage = result.error;
-      wrongNotif = true;
+      $alert = result.error;
     } else {
       showSignUpModal = false;
       showSignInModal = true;
@@ -104,11 +101,9 @@ async function handleSignIn() {
     const result = await res.json();
 
     if (result.error == 'Wrong email' || result.error == 'Wrong password') {
-      notifMessage = result.error;
-      wrongNotif = true;
+      $alert = result.error;
     } else if (!result.accessToken) {
-      notifMessage = 'Something Went Wrong';
-      wrongNotif = true;
+      $alert = 'Something Went Wrong';
     } else {
       $session.token = result.accessToken;
       showSignInModal = false;
@@ -129,8 +124,8 @@ async function handleSignOut() {
 function handlePermission() {
   if (!$session.token) {
     showSignInModal = true;
-    wrongNotif = true;
-    notifMessage = 'Firstly, you have to log in';
+    $alert = 'Firstly, you have to log in';
+    console.log($alert);
   }
 }
 </script>
@@ -143,18 +138,21 @@ function handlePermission() {
     </li>
     <li>
       <a
+        class="listButton"
         aria-current={segment === 'readList' ? 'page' : undefined}
         href="readList"
         on:click={handlePermission}>Read List</a>
     </li>
     <li>
       <a
+        class="listButton"
         aria-current={segment === 'wantToReadList' ? 'page' : undefined}
         href="wantToReadList"
         on:click={handlePermission}>WantToRead List</a>
     </li>
     <li>
       <a
+        class="listButton"
         rel="prefetch"
         aria-current={segment === 'favList' ? 'page' : undefined}
         href="favList"
@@ -205,10 +203,6 @@ function handlePermission() {
           }}>Sign In</span>
       </p>
     </Sign>
-
-    <Notification
-      showNotification={wrongNotif}
-      message={notifMessage}
-      on:click={() => (wrongNotif = false)} />
+    <Notification />
   </ul>
 </nav>

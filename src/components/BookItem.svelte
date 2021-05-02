@@ -17,6 +17,7 @@
   flex-direction: column;
 }
 .buttons-container button {
+  cursor: pointer;
   width: 150px;
   height: 2.3em;
   border-radius: 10px;
@@ -86,7 +87,7 @@
 <script>
 import author from '@static/suspect.png';
 import View from '@components/View.svelte';
-//import Notification from '@components/Notification.svelte';
+import { alert } from '@store';
 import { stores } from '@sapper/app';
 export let book;
 const { session } = stores();
@@ -106,12 +107,10 @@ const {
 } = volumeInfo;
 
 let thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
-// let wrongNotif = false;
-// let notifMessage = '';
 
 async function addBookToFavList() {
   try {
-    await fetch('favList.json', {
+    const res = await fetch('favList.json', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -128,11 +127,11 @@ async function addBookToFavList() {
         link: previewLink,
       }),
     });
-    //const result = await res.json();
-    // if (result.error == 'The book already exists') {
-    //   notifMessage = result.error;
-    //   wrongNotif = true;
-    // }
+    const result = await res.json();
+    if (result.error == 'The book already exists') {
+      $alert = result.error;
+      console.log($alert);
+    }
   } catch (e) {
     console.error(e.message);
   }
@@ -172,6 +171,5 @@ async function addBookToFavList() {
         {authors}
       {/if}
     </h4>
-    <!-- <Notification showNotification={wrongNotif} message={notifMessage} /> -->
   </div>
 </div>

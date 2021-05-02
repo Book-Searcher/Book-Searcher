@@ -1,42 +1,31 @@
 <style>
-.notification {
-  width: 20vw;
-  height: 3vw;
-  line-height: 3vw;
-  border-radius: 20px;
-  margin: 1vw auto;
-  background-color: rgba(255, 0, 0, 0.637);
-  text-align: center;
-}
-.notification span {
-  color: aliceblue;
-  text-decoration: none;
-  font-weight: 600;
-}
-.notification-wrapper {
+div {
   position: fixed;
-  width: 100%;
-  height: 100%;
-}
-.closeNotification {
-  font-weight: bold;
   cursor: pointer;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  border-radius: 0.2rem;
+  background-color: rgba(255, 0, 0, 0.637);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 0.5rem 1.4rem;
+  font-size: 1.5rem;
+  z-index: 100;
+  opacity: 95%;
 }
-.closeNotification:hover {
-  color: black;
+div p {
+  color: #fff;
 }
 </style>
 
 <script>
-export let showNotification = false;
-export let message = '';
+import { alert } from '@store';
 </script>
 
-{#if showNotification}
-  <div class="notification-wrapper">
-    <div class="notification">
-      <span>{message}</span>
-      <span class="closeNotification" on:click>&times;</span>
-    </div>
+{#if $alert}
+  <div on:click={() => ($alert = '')}>
+    <p>{$alert}</p>
   </div>
 {/if}
