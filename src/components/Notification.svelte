@@ -18,11 +18,11 @@
   width: 100%;
   height: 100%;
 }
-#closeNotification {
+.closeNotification {
   font-weight: bold;
   cursor: pointer;
 }
-#closeNotification:hover {
+.closeNotification:hover {
   color: black;
 }
 </style>
@@ -36,7 +36,7 @@ export let message = '';
   <div class="notification-wrapper">
     <div class="notification">
       <span>{message}</span>
-      <span id="closeNotification" on:click>&times;</span>
+      <span class="closeNotification" on:click>&times;</span>
     </div>
   </div>
 {/if}

@@ -26,24 +26,24 @@
 .close:hover {
   font-weight: bold;
 }
-#description {
+.description {
   width: 55vw;
   height: 5vw;
   resize: none;
 }
-#title {
+.title {
   font-size: 1.3em;
   margin-left: 3%;
 }
-#previewLink {
+.previewLink {
   color: darkblue;
   text-decoration: none;
 }
-#previewLink:hover {
+.previewLink:hover {
   color: indigo;
   text-decoration: underline;
 }
-#bookinfo ul {
+.bookinfo ul {
   list-style-type: none;
   text-align: left;
   padding-left: 0;
@@ -59,11 +59,11 @@
     'image description description description'
     'comment comment map map';
 }
-#bookinfo {
+.bookinfo {
   grid-area: description;
   height: 18vw;
 }
-#bookImg {
+.bookImg {
   margin-left: 10%;
   height: 18vw;
   width: 13vw;
@@ -108,10 +108,10 @@ export function hide() {
   <div class="view-wrapper">
     <div class="view">
       <span class="close" on:click={() => hide()}>&times;</span>
-      <div id="title"><b>"{title}"</b></div>
+      <div class="title"><b>"{title}"</b></div>
       <div class="viewContainer">
-        <img id="bookImg" src={thumbnailUrl} alt="cover" />
-        <div id="bookinfo">
+        <img class="bookImg" src={thumbnailUrl} alt="cover" />
+        <div class="bookinfo">
           <ul>
             <li>
               <b>Authors: </b>
@@ -125,7 +125,7 @@ export function hide() {
             <li>
               <b>Description: </b>
               {#if description}
-                <textarea id="description" readonly>{description}</textarea>
+                <textarea class="description" readonly>{description}</textarea>
               {:else}
                 Unknown
               {/if}
@@ -141,7 +141,7 @@ export function hide() {
               {/if}
             </li>
             <li>
-              <b>Book preview: </b><a id="previewLink" href={previewLink}
+              <b>Book preview: </b><a class="previewLink" href={previewLink}
                 >link</a>
             </li>
           </ul>
