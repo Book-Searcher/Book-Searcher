@@ -118,6 +118,10 @@ async function handleSignIn() {
 async function handleSignOut() {
   try {
     session.set({});
+    await fetch('logout.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (e) {
     console.error(e.message);
   }
