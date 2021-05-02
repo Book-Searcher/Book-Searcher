@@ -101,6 +101,8 @@ const {
   pageCount,
   previewLink,
 } = volumeInfo;
+const { saleInfo } = wholeinfo;
+const { buyLink, listPrice } = saleInfo;
 let days;
 let estimation;
 let thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
@@ -146,6 +148,22 @@ function estimateProgress() {
             </li>
             <li><b>Categories: </b>"{categories}"</li>
             <li><b>Language: </b>"{language}"</li>
+            <li>
+              <b>Price: </b>
+              {#if listPrice == undefined}
+                Not for sale
+              {:else}
+                {listPrice.amount} {listPrice.currencyCode}
+              {/if}
+            </li>
+            <li>
+              <b>Buy Link: </b>
+              {#if buyLink == undefined}
+                There is no buy link
+              {:else}
+                <a class="previewLink" href={buyLink}>link</a>
+              {/if}
+            </li>
             <li>
               <b>PageCount: </b>
               {#if pageCount == undefined}
