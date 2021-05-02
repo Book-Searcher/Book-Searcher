@@ -8,16 +8,9 @@ const options = {
   useUnifiedTopology: true,
 };
 
-export async function connectToDB() {
+export async function instantiateDb() {
   await mongoose
     .connect(process.env.DB_CONNECT, options)
     .then(() => console.log('MongoDB is connected'))
-    .catch((err) => console.log(err));
-}
-
-export async function disconnectToDB() {
-  await mongoose
-    .disconnect()
-    .then(() => console.log('MongoDB is disconnected'))
     .catch((err) => console.log(err));
 }

@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 import { User } from '@models/user.js';
-import { connectToDB, disconnectToDB } from '@db/_mongo.js';
 
 export const verifyToken = async (req, res, next) => {
   const securedPaths = ['/favList.json'];
@@ -26,9 +25,7 @@ export const verifyToken = async (req, res, next) => {
           })
         );
       }
-      await connectToDB();
       const user = await User.findOne({ _id: decoded._id });
-      await disconnectToDB();
       if (user == undefined) {
         return res.writeHead(403).end(
           JSON.stringify({

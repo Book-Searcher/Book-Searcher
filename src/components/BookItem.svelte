@@ -9,13 +9,9 @@
   margin-top: 10px;
   text-align: center;
 }
-.bookImg {
+.bookInfo {
   display: flex;
   flex-direction: row;
-}
-.bookImg img {
-  height: 70%;
-  width: 45%;
 }
 .buttons-container {
   flex-direction: column;
@@ -69,18 +65,32 @@
   height: 10%;
   width: 10%;
 }
+.fallback {
+  background-image: url('/fileIcon.png');
+  display: inline-block;
+  min-width: 140px;
+  min-height: 210px;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.book_image {
+  width: 100%;
+  height: 100%;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 </style>
 
 <script>
 import author from '@static/suspect.png';
-import fileIcon from '@static/fileIcon.png';
 import View from '@components/View.svelte';
 //import Notification from '@components/Notification.svelte';
 import { stores } from '@sapper/app';
 
 const { session } = stores();
 export let book;
-let thumbnailUrl;
 let view;
 const { volumeInfo } = book;
 const {
@@ -94,15 +104,10 @@ const {
   language,
   previewLink,
 } = volumeInfo;
+
+let thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
 // let wrongNotif = false;
 // let notifMessage = '';
-
-if (imageLinks) {
-  const { thumbnail } = imageLinks;
-  thumbnailUrl = thumbnail;
-} else {
-  thumbnailUrl = fileIcon;
-}
 
 async function addBookToFavList() {
   try {
@@ -138,8 +143,14 @@ async function addBookToFavList() {
   <h3 class="title">
     {title}
   </h3>
-  <div class="bookImg">
-    <img src={thumbnailUrl} alt="cover" />
+  <div class="bookInfo">
+    <div class="book_image_container fallback">
+      <img
+        class="book_image"
+        src="data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        style="background-image: url({thumbnailUrl})"
+        alt />
+    </div>
     <div class="buttons-container">
       <button class="viewButton" on:click={() => view.show()}>View</button>
       <View bind:this={view} wholeinfo={book} />

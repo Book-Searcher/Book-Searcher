@@ -1,10 +1,8 @@
-import { connectToDB, disconnectToDB } from '@db/_mongo.js';
 import { FavList } from '@models/favList.js';
 import { Book } from '@models/book.js';
 
 export async function get(req, res) {
   try {
-    await connectToDB();
     let books = [];
     const favList = await FavList.findOne({
       owner: req.session.userId,
@@ -17,12 +15,10 @@ export async function get(req, res) {
         const book = await Book.findOne({ _id: favList.books[item].book });
         books.push(book);
       }
-      await disconnectToDB();
       res.writeHead(200);
       res.end(JSON.stringify(books));
     }
   } catch (error) {
-    await disconnectToDB();
     if (error instanceof Error) {
       res.writeHead(400);
       res.end(JSON.stringify({ error: error.message }));
@@ -35,7 +31,6 @@ export async function get(req, res) {
 
 export async function post(req, res) {
   try {
-    await connectToDB();
     let book = await Book.findOne({ title: req.body.title });
     if (!book) {
       book = new Book({
@@ -63,10 +58,8 @@ export async function post(req, res) {
     favList.books = favList.books.concat({ book: book._id });
 
     await favList.save();
-    await disconnectToDB();
     res.end(JSON.stringify(favList));
   } catch (error) {
-    await disconnectToDB();
     if (error instanceof Error) {
       res.writeHead(404);
       res.end(JSON.stringify({ error: error.message }));

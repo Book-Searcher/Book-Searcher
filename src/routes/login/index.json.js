@@ -1,4 +1,3 @@
-import { connectToDB, disconnectToDB } from '@db/_mongo.js';
 import { User } from '@models/user.js';
 
 const contentType = { 'Content-Type': 'application/json' };
@@ -6,7 +5,6 @@ const contentType = { 'Content-Type': 'application/json' };
 export async function post(req, res) {
   try {
     const user = req.body;
-    await connectToDB();
     const userToLog = await User.findUser(user);
     const token = await userToLog.generateAuthToken();
     const data = {
@@ -14,12 +12,10 @@ export async function post(req, res) {
       email: userToLog.email,
       accessToken: token,
     };
-    await disconnectToDB();
     req.session.token = data.accessToken;
     req.session.userId = data.id;
     res.writeHead(200).end(JSON.stringify(data));
   } catch (error) {
-    await disconnectToDB();
     if (error instanceof Error) {
       res.writeHead(400, contentType);
       res.end(JSON.stringify({ error: error.message }));
