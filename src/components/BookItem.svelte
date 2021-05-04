@@ -97,7 +97,6 @@ import View from '@components/View.svelte';
 import { alert } from '@store';
 import { stores } from '@sapper/app';
 export let book;
-export let type;
 export let showDelBut = false;
 const { session } = stores();
 let shownView = false;
@@ -201,8 +200,7 @@ async function deleteFromList(event) {
       <button class="listButton" name="favList" on:click={addBookToList}
         >FavList</button>
       {#if showDelBut}
-        <button class="deleteButton" name={type} on:click={deleteFromList}
-          >Delete</button>
+        <button class="deleteButton" on:click={deleteFromList}>Delete</button>
       {/if}
     </div>
   </div>
