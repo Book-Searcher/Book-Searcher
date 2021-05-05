@@ -108,8 +108,7 @@ async function handleSignIn() {
     } else {
       $session.token = result.accessToken;
       showSignInModal = false;
-      email = '';
-      password = '';
+      location.reload();
     }
   } catch (e) {
     console.error(e.message);

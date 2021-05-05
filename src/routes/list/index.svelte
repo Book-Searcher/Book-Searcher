@@ -19,10 +19,10 @@ export async function preload(page, session) {
           _id: book._id,
           volumeInfo: {
             title: book.title,
-            authors: book.authors,
+            authors: [book.authors],
             publishedDate: book.publishedDate,
             description: book.description,
-            categories: book.categories,
+            categories: [book.categories],
             language: book.language,
             pageCount: book.pageCount,
             imageLinks: { thumbnail: book.img },
