@@ -97,14 +97,10 @@ import View from '@components/View.svelte';
 import { alert } from '@store';
 import { stores } from '@sapper/app';
 export let book;
-export let type;
 export let showDelBut = false;
-const { session } = stores();
+const { session, page } = stores();
 let shownView = false;
-
-const { volumeInfo } = book;
-const {
-  title,
+let title,
   imageLinks,
   authors,
   publishedDate,
@@ -113,12 +109,22 @@ const {
   description,
   language,
   previewLink,
-} = volumeInfo;
-
-const { saleInfo } = book;
-const { buyLink, listPrice } = saleInfo;
-
-let thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
+  buyLink,
+  listPrice;
+$: {
+  title = book.volumeInfo.title;
+  imageLinks = book.volumeInfo.imageLinks;
+  authors = book.volumeInfo.authors;
+  publishedDate = book.volumeInfo.publishedDate;
+  pageCount = book.volumeInfo.pageCount;
+  categories = book.volumeInfo.categories;
+  description = book.volumeInfo.description;
+  language = book.volumeInfo.language;
+  previewLink = book.volumeInfo.previewLink;
+  buyLink = book.saleInfo.buyLink;
+  listPrice = book.saleInfo.listPrice;
+}
+$: thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
 
 async function addBookToList(event) {
   try {
@@ -155,10 +161,9 @@ async function addBookToList(event) {
     console.error(e.message);
   }
 }
-async function deleteFromList(event) {
+async function deleteFromList() {
   try {
-    let type = event.target.name;
-    await fetch(`list.json?type=${type}`, {
+    await fetch(`list.json?type=${$page.query.type}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -169,6 +174,7 @@ async function deleteFromList(event) {
         _id: book._id,
       }),
     });
+    location.reload();
   } catch (e) {
     console.error(e.message);
   }
@@ -201,8 +207,7 @@ async function deleteFromList(event) {
       <button class="listButton" name="favList" on:click={addBookToList}
         >FavList</button>
       {#if showDelBut}
-        <button class="deleteButton" name={type} on:click={deleteFromList}
-          >Delete</button>
+        <button class="deleteButton" on:click={deleteFromList}>Delete</button>
       {/if}
     </div>
   </div>

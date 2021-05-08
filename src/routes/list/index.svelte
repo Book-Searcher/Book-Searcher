@@ -1,7 +1,7 @@
 <script context="module">
 export async function preload(page, session) {
   try {
-    const res = await this.fetch('list.json?type=favList', {
+    const res = await this.fetch(`list.json?type=${page.query.type}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -19,10 +19,10 @@ export async function preload(page, session) {
           _id: book._id,
           volumeInfo: {
             title: book.title,
-            authors: book.authors,
+            authors: [book.authors],
             publishedDate: book.publishedDate,
             description: book.description,
-            categories: book.categories,
+            categories: [book.categories],
             language: book.language,
             pageCount: book.pageCount,
             imageLinks: { thumbnail: book.img },
@@ -57,5 +57,5 @@ if (listBooks[0] && listBooks[0].error) {
 </script>
 
 {#if listBooks[0] && listBooks[0].error != 'List is empty😥'}
-  <BookContainer allBooks={listBooks} type="favList" showDelBut="true" />
+  <BookContainer allBooks={listBooks} showDelBut="true" />
 {/if}

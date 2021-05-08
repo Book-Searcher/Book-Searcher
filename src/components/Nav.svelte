@@ -60,7 +60,7 @@ import Sign from '@components/Sign.svelte';
 import Notification from '@components/Notification.svelte';
 import { stores } from '@sapper/app';
 import { alert } from '@store';
-const { session } = stores();
+const { session, page } = stores();
 
 let showSignInModal = false;
 let showSignUpModal = false;
@@ -108,8 +108,7 @@ async function handleSignIn() {
     } else {
       $session.token = result.accessToken;
       showSignInModal = false;
-      email = '';
-      password = '';
+      location.reload();
     }
   } catch (e) {
     console.error(e.message);
@@ -144,23 +143,30 @@ function handlePermission() {
     <li>
       <a
         class="listButton"
-        aria-current={segment === 'readList' ? 'page' : undefined}
-        href="readList"
+        aria-current={segment === 'list' && $page.query.type === 'readList'
+          ? 'page'
+          : undefined}
+        href="list?type=readList"
         on:click={handlePermission}>Read List</a>
     </li>
     <li>
       <a
         class="listButton"
-        aria-current={segment === 'wantToReadList' ? 'page' : undefined}
-        href="wantToReadList"
+        aria-current={segment === 'list' &&
+        $page.query.type === 'wantToReadList'
+          ? 'page'
+          : undefined}
+        href="list?type=wantToReadList"
         on:click={handlePermission}>WantToRead List</a>
     </li>
     <li>
       <a
         class="listButton"
         rel="prefetch"
-        aria-current={segment === 'favList' ? 'page' : undefined}
-        href="favList"
+        aria-current={segment === 'list' && $page.query.type === 'favList'
+          ? 'page'
+          : undefined}
+        href="list?type=favList"
         on:click={handlePermission}>Favourites List</a>
     </li>
     <li>

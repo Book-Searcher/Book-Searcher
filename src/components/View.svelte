@@ -92,24 +92,33 @@
 <script>
 export let wholeinfo;
 export let shown = false;
-const { volumeInfo } = wholeinfo;
-const {
-  title,
+let title,
   imageLinks,
   authors,
   publishedDate,
+  pageCount,
   categories,
   description,
   language,
-  pageCount,
   previewLink,
-} = volumeInfo;
-const { saleInfo } = wholeinfo;
-const { buyLink, listPrice } = saleInfo;
-
+  buyLink,
+  listPrice;
+$: {
+  title = wholeinfo.volumeInfo.title;
+  imageLinks = wholeinfo.volumeInfo.imageLinks;
+  authors = wholeinfo.volumeInfo.authors;
+  publishedDate = wholeinfo.volumeInfo.publishedDate;
+  pageCount = wholeinfo.volumeInfo.pageCount;
+  categories = wholeinfo.volumeInfo.categories;
+  description = wholeinfo.volumeInfo.description;
+  language = wholeinfo.volumeInfo.language;
+  previewLink = wholeinfo.volumeInfo.previewLink;
+  buyLink = wholeinfo.saleInfo.buyLink;
+  listPrice = wholeinfo.saleInfo.listPrice;
+}
+$: thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
 let days;
 let estimation;
-let thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
 
 function estimateProgress() {
   estimation = pageCount

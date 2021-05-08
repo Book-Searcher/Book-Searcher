@@ -15,13 +15,12 @@ p {
 <script>
 import BookItem from '@components/BookItem.svelte';
 export let allBooks;
-export let type;
 export let showDelBut = false;
 </script>
 
 <div class="book-container">
   {#each allBooks as book}
-    <BookItem book={book} type={type} showDelBut={showDelBut} />
+    <BookItem book={book} showDelBut={showDelBut} />
   {:else}
     <p>
       <strong>Try to find a fabulous book💡</strong>
