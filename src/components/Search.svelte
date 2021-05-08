@@ -39,7 +39,8 @@ let searchText = '';
 
 async function searchBooks() {
   if (searchText) {
-    let text = searchText.replace(/ /g, '+');
+    let text = searchText.replace(/ AND /g, '&');
+    text = text.replace(/ /g, '+');
     await fetch('search.json', {
       method: 'POST',
       headers: {
@@ -54,6 +55,7 @@ async function searchBooks() {
         books.set(result);
       })
       .catch((error) => {
+        $alert = 'Please enter correctly. Read page About';
         console.error('ERROR: ' + error);
       });
   } else {
@@ -61,6 +63,7 @@ async function searchBooks() {
     console.log($alert);
   }
 }
+
 function clearText() {
   books.set([]);
   searchText = '';
