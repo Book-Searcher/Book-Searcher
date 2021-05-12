@@ -5,24 +5,22 @@ export async function get(req, res) {
   try {
     let books = [];
     const list = await List.findOne({
-      owner: req.session.userId,
+      owner: req.cookies['userId'],
       type: req.query.type,
     });
     if (!list) {
-      throw new Error('List is empty😥');
-    } else {
-      for (let item in list.books) {
-        const book = await Book.findOne({ _id: list.books[item].book });
-        books.push(book);
-      }
       res.writeHead(200).end(JSON.stringify(books));
     }
+    for (let item in list.books) {
+      const book = await Book.findOne({ _id: list.books[item].book });
+      books.push(book);
+    }
+    res.writeHead(200).end(JSON.stringify(books));
   } catch (error) {
     if (error instanceof Error) {
       res.writeHead(400).end(JSON.stringify({ error: error.message }));
-    } else {
-      res.writeHead(500).end(JSON.stringify({ error: error.message }));
     }
+    res.writeHead(500).end(JSON.stringify({ error: error.message }));
   }
 }
 
@@ -47,12 +45,12 @@ export async function post(req, res) {
     }
     await book.save();
     let list = await List.findOne({
-      owner: req.body.owner,
+      owner: req.cookies['userId'],
       type: req.query.type,
     });
     if (!list) {
       list = new List({
-        owner: req.body.owner,
+        owner: req.cookies['userId'],
         type: req.query.type,
       });
     } else if (await checkBook(list, book)) {
@@ -82,7 +80,7 @@ export async function del(req, res) {
   try {
     const result = await List.updateOne(
       {
-        owner: req.body.owner,
+        owner: req.cookies['userId'],
         type: req.query.type,
       },
       {

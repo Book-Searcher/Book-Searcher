@@ -1,50 +1,38 @@
 const jwt = require('jsonwebtoken');
 import { User } from '@models/user.js';
 
+// eslint-disable-next-line no-unused-vars
 export const verifyToken = async (req, res, next) => {
-  const securedPaths = ['/favList.json'];
   try {
-    if (!securedPaths.includes(req.url)) {
-      return next();
-    }
-
-    let token = req.headers['x-access-token'];
+    let token = req.cookies['token'];
     if (!token) {
-      return res.writeHead(403).end(
-        JSON.stringify({
-          message: 'No token provided!',
-        })
-      );
+      return { status: 403, message: 'No token provided!' };
     }
 
     jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
       if (err) {
-        return res.writeHead(403).end(
-          JSON.stringify({
-            message: 'Unauthorized!',
-          })
-        );
+        return { status: 403, message: 'Unauthorized!' };
       }
       const user = await User.findOne({ _id: decoded._id });
       if (user == undefined) {
-        return res.writeHead(403).end(
-          JSON.stringify({
-            message: 'UserId is not found',
-          })
-        );
+        return { status: 403, message: 'UserId is not found' };
       }
 
       if (Date.now() >= decoded.exp * 1000) {
-        return res.writeHead(403).end(
-          JSON.stringify({
-            message: 'token is expired',
-          })
-        );
+        return { status: 403, message: 'token is expired' };
       }
-      next();
     });
+    return { status: 200, message: 'Success' };
   } catch (err) {
     console.log(err);
-    throw err;
+    throw new Error(err.message);
   }
+};
+// eslint-disable-next-line no-unused-vars
+export const isSecuredPath = (req, res, next) => {
+  let securedPaths = ['/list.json'];
+  if (securedPaths.includes(req.url.split('?')[0])) {
+    return true;
+  }
+  return false;
 };

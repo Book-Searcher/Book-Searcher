@@ -128,15 +128,17 @@ $: thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
 
 async function addBookToList(event) {
   try {
+    if (!$session.authenticated) {
+      $alert = 'Firstly, you have to log in';
+      console.log($alert);
+    }
     let type = event.target.name;
     const res = await fetch(`list.json?type=${type}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': $session.token,
       },
       body: JSON.stringify({
-        owner: $session.userId,
         title,
         publishedDate,
         description,
@@ -167,10 +169,8 @@ async function deleteFromList() {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': $session.token,
       },
       body: JSON.stringify({
-        owner: $session.userId,
         _id: book._id,
       }),
     });
@@ -200,6 +200,7 @@ async function deleteFromList() {
         shown={shownView}
         on:click={() => (shownView = false)}
         wholeinfo={book} />
+
       <button class="listButton" name="wantToReadList" on:click={addBookToList}
         >WantToReadList</button>
       <button class="listButton" name="readList" on:click={addBookToList}

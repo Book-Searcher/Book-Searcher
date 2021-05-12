@@ -1,19 +1,22 @@
+<style>
+p {
+  text-align: center;
+}
+</style>
+
 <script context="module">
+// eslint-disable-next-line no-unused-vars
 export async function preload(page, session) {
   try {
     const res = await this.fetch(`list.json?type=${page.query.type}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': session.token,
       },
     });
     const books = await res.json();
-
     let listBooks = [];
-    if (books && books.error == 'List is empty😥') {
-      listBooks.push({ error: books.error });
-    } else {
+    if (books && books.length !== 0 && !books.error) {
       books.forEach((book) => {
         listBooks.push({
           _id: book._id,
@@ -48,14 +51,12 @@ export async function preload(page, session) {
 <script>
 export let listBooks;
 import BookContainer from '@components/BookContainer.svelte';
-import { alert } from '@store';
-
-if (listBooks[0] && listBooks[0].error) {
-  $alert = listBooks[0].error;
-  console.log($alert);
-}
 </script>
 
-{#if listBooks[0] && listBooks[0].error != 'List is empty😥'}
+{#if listBooks.length !== 0}
   <BookContainer allBooks={listBooks} showDelBut="true" />
+{:else}
+  <p>
+    <strong>Try to find a fabulous book💡</strong>
+  </p>
 {/if}

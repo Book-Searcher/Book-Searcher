@@ -12,8 +12,14 @@ export async function post(req, res) {
       email: userToLog.email,
       accessToken: token,
     };
-    req.session.token = data.accessToken;
-    req.session.userId = data.id;
+    res.setHeader(
+      'Set-Cookie',
+      [`token = ${token};`, `userId=${userToLog._id}`],
+      {
+        maxAge: 900000,
+        httpOnly: true,
+      }
+    );
     res.writeHead(200).end(JSON.stringify(data));
   } catch (error) {
     if (error instanceof Error) {

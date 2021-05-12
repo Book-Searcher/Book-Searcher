@@ -61,12 +61,11 @@ import Notification from '@components/Notification.svelte';
 import { stores } from '@sapper/app';
 import { alert } from '@store';
 const { session, page } = stores();
-
 let showSignInModal = false;
 let showSignUpModal = false;
 let email = '';
 let password = '';
-
+session.set({ authenticated: $session.authenticated });
 async function handleSignUp() {
   try {
     const res = await fetch('registration.json', {
@@ -100,16 +99,16 @@ async function handleSignIn() {
       }),
     });
     const result = await res.json();
-
     if (result.error == 'Wrong email' || result.error == 'Wrong password') {
       $alert = result.error;
-    } else if (!result.accessToken) {
-      $alert = 'Something Went Wrong';
-    } else {
-      $session.token = result.accessToken;
-      showSignInModal = false;
-      location.reload();
+      return;
     }
+    if (!result.accessToken) {
+      $alert = 'Something Went Wrong';
+      return;
+    }
+    showSignInModal = false;
+    $session.authenticated = true;
   } catch (e) {
     console.error(e.message);
   }
@@ -126,7 +125,7 @@ async function handleSignOut() {
   }
 }
 function handlePermission() {
-  if (!$session.token) {
+  if (!$session.authenticated) {
     showSignInModal = true;
     $alert = 'Firstly, you have to log in';
     console.log($alert);
@@ -162,7 +161,6 @@ function handlePermission() {
     <li>
       <a
         class="listButton"
-        rel="prefetch"
         aria-current={segment === 'list' && $page.query.type === 'favList'
           ? 'page'
           : undefined}
@@ -173,7 +171,7 @@ function handlePermission() {
       <a aria-current={segment === 'search' ? 'page' : undefined} href="search">
         Search</a>
     </li>
-    {#if $session.token}
+    {#if $session.authenticated}
       <li class="signButton" on:click={handleSignOut}>Log out</li>
     {:else}
       <li class="signButton" on:click={() => (showSignInModal = true)}>

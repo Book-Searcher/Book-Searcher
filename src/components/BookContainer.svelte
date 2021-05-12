@@ -1,10 +1,4 @@
 <style>
-p {
-  padding-right: 7%;
-  margin-top: 0;
-  justify-self: center;
-  grid-column: 1 / span 2;
-}
 .book-container {
   padding-left: 7%;
   display: grid;
@@ -21,9 +15,5 @@ export let showDelBut = false;
 <div class="book-container">
   {#each allBooks as book}
     <BookItem book={book} showDelBut={showDelBut} />
-  {:else}
-    <p>
-      <strong>Try to find a fabulous book💡</strong>
-    </p>
   {/each}
 </div>
