@@ -10,7 +10,7 @@ const options = {
 
 export async function instantiateDb() {
   await mongoose
-    .connect(process.env.DB_CONNECT, options)
+    .connect(encodeURI(process.env.DB_CONNECT), options)
     .then(() => console.log('MongoDB is connected'))
     .catch((err) => console.log(err));
 }
