@@ -10,7 +10,10 @@ const options = {
 
 export async function instantiateDb() {
   await mongoose
-    .connect(encodeURI(process.env.DB_CONNECT), options)
+    .connect(
+      `mongodb+srv://bookSearcher:${process.env.DB_PASSWORD}@${process.env.DBY}`,
+      options
+    )
     .then(() => console.log('MongoDB is connected'))
     .catch((err) => console.log(err));
 }
