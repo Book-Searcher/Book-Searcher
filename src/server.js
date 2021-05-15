@@ -12,30 +12,30 @@ const { json } = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config();
 
-instantiateDb().then(() => {
-  polka()
-    .use(
-      cookieParser(),
-      json(),
-      compression({ threshold: 0 }),
-      sirv('static', { dev }),
-      async (req, res, next) => {
-        const response = await verifyToken(req, res, next);
-        if (isSecuredPath(req) && response.status != 200)
-          res
-            .writeHead(response.status)
-            .end(JSON.stringify({ error: response.message }));
+instantiateDb().then(console.log('db is instantiated'));
+const app = polka()
+  .use(
+    cookieParser(),
+    json(),
+    compression({ threshold: 0 }),
+    sirv('static', { dev }),
+    async (req, res, next) => {
+      const response = await verifyToken(req, res, next);
+      if (isSecuredPath(req) && response.status != 200)
+        res
+          .writeHead(response.status)
+          .end(JSON.stringify({ error: response.message }));
 
-        return sapper.middleware({
-          session: () => {
-            return {
-              authenticated: response.status == 200 ? true : false,
-            };
-          },
-        })(req, res, next);
-      }
-    )
-    .listen(PORT, (err) => {
-      if (err) console.log('error', err);
-    });
-});
+      return sapper.middleware({
+        session: () => {
+          return {
+            authenticated: response.status == 200 ? true : false,
+          };
+        },
+      })(req, res, next);
+    }
+  )
+  .listen(PORT, (err) => {
+    if (err) console.log('error', err);
+  });
+export default app.handler;
