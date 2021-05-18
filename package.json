@@ -6,7 +6,7 @@
     "dev": "sapper dev",
     "vercel": "sapper build --legacy && vercel",
     "now": "sapper build --legacy && now",
-    "b": "sapper build --legacy",
+    "build": "sapper build --legacy",
     "start": "node __sapper__/build",
     "export": "sapper export",
     "prettier": " prettier --check ./**/*.{js,svelte,html,css,json}",
