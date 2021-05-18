@@ -9,5 +9,10 @@
       "utils/*": ["src/utils/*"]
     }
   },
-  "include": ["src/**/*.js", "src/**/*.svelte", "static/*"]
+  "include": [
+    "src/**/*.js",
+    "src/**/*.svelte",
+    "static/*",
+    "static/node_modules/mongoose"
+  ]
 }

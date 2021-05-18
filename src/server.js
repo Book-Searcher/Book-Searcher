@@ -13,7 +13,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 instantiateDb().then(console.log('db is instantiated'));
-const app = polka()
+module.exports = polka()
   .use(
     cookieParser(),
     json(),
@@ -38,4 +38,3 @@ const app = polka()
   .listen(PORT, (err) => {
     if (err) console.log('error', err);
   });
-export default app.handler;
