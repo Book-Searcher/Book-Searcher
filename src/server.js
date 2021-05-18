@@ -23,11 +23,11 @@ export default polka()
     async (req, res, next) => {
       const response = await verifyToken(req, res, next);
       if (isSecuredPath(req) && response.status != 200)
-        res
+        return res
           .writeHead(response.status)
           .end(JSON.stringify({ error: response.message }));
 
-      return sapper.middleware({
+      sapper.middleware({
         session: () => {
           return {
             authenticated: response.status == 200 ? true : false,
