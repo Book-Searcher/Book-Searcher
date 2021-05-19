@@ -13,7 +13,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 instantiateDb().then(console.log('db is instantiated'));
-// eslint-disable-next-line no-unused-vars
 export default polka()
   .use(
     cookieParser(),

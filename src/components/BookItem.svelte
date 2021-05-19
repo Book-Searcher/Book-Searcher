@@ -67,7 +67,7 @@
   width: 10%;
 }
 .fallback {
-  background-image: url('/fileIcon.png');
+  background-image: url('/fileIcon.png ');
   display: inline-block;
   min-width: 140px;
   min-height: 210px;
@@ -187,11 +187,7 @@ async function deleteFromList() {
   </h3>
   <div class="bookInfo">
     <div class="book_image_container fallback">
-      <img
-        class="book_image"
-        src="data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-        style="background-image: url({thumbnailUrl})"
-        alt />
+      <img class="book_image" src={thumbnailUrl} alt />
     </div>
     <div class="buttons-container">
       <button class="viewButton" on:click={() => (shownView = true)}
