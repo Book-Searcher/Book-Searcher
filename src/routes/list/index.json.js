@@ -9,7 +9,7 @@ export async function get(req, res) {
       type: req.query.type,
     });
     if (!list) {
-      res.writeHead(200).end(JSON.stringify(books));
+      return res.writeHead(200).end(JSON.stringify(books));
     }
     for (let item in list.books) {
       const book = await Book.findOne({ _id: list.books[item].book });
@@ -18,7 +18,7 @@ export async function get(req, res) {
     res.writeHead(200).end(JSON.stringify(books));
   } catch (error) {
     if (error instanceof Error) {
-      res.writeHead(400).end(JSON.stringify({ error: error.message }));
+      return res.writeHead(400).end(JSON.stringify({ error: error.message }));
     }
     res.writeHead(500).end(JSON.stringify({ error: error.message }));
   }
@@ -62,10 +62,9 @@ export async function post(req, res) {
     res.end(JSON.stringify(list));
   } catch (error) {
     if (error instanceof Error) {
-      res.writeHead(404).end(JSON.stringify({ error: error.message }));
-    } else {
-      res.writeHead(500).end(JSON.stringify({ error: error }));
+      return res.writeHead(404).end(JSON.stringify({ error: error.message }));
     }
+    res.writeHead(500).end(JSON.stringify({ error: error }));
   }
 }
 async function checkBook(list, book) {
@@ -92,9 +91,8 @@ export async function del(req, res) {
     res.writeHead(200).end(JSON.stringify(result));
   } catch (error) {
     if (error instanceof Error) {
-      res.writeHead(400).end(JSON.stringify({ error: error.message }));
-    } else {
-      res.writeHead(500).end(JSON.stringify({ error: error.message }));
+      return res.writeHead(400).end(JSON.stringify({ error: error.message }));
     }
+    res.writeHead(500).end(JSON.stringify({ error: error.message }));
   }
 }
