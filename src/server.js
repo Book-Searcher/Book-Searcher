@@ -17,6 +17,7 @@ export default polka()
   .use(
     cookieParser(),
     json(),
+    //todo: no need to use compression on vercel, as far I remember they compress static assets automaticaly
     compression({ threshold: 0 }),
     sirv('static', { dev }),
     async (req, res, next) => {
@@ -25,7 +26,7 @@ export default polka()
         return res
           .writeHead(response.status)
           .end(JSON.stringify({ error: response.message }));
-
+      //todo: why we need that session that always true?
       sapper.middleware({
         session: () => {
           return {
