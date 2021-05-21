@@ -2,11 +2,12 @@
   "compilerOptions": {
     "baseUrl": "/",
     "paths": {
-      "components/*": ["src/components/*"],
-      "static/*": ["static/*"],
-      "db/*": ["src/db/*"],
-      "models/*": ["src/models/*"],
-      "utils/*": ["src/utils/*"]
+      "@components/*": ["./src/components/*"],
+      "@store/*": ["./src/store/store.js"],
+      "@static/*": ["./static/*"],
+      "@db/*": ["./src/db/*"],
+      "@models/*": ["./src/models/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": [
