@@ -12,6 +12,7 @@ export async function post(req, res) {
       email: userToLog.email,
       accessToken: token,
     };
+    // todo: jwt includes user id
     res.setHeader(
       'Set-Cookie',
       [`token = ${token};`, `userId=${userToLog._id}`],
