@@ -5,8 +5,7 @@ p {
 </style>
 
 <script context="module">
-// eslint-disable-next-line no-unused-vars
-export async function preload(page, session) {
+export async function preload(page) {
   try {
     const res = await this.fetch(`list.json?type=${page.query.type}`, {
       method: 'GET',
