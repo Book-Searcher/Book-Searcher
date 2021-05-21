@@ -8,7 +8,6 @@ div {
   border-radius: 0.2rem;
   background-color: rgba(255, 0, 0, 0.637);
   color: #fff;
-  font-size: 0.875rem;
   font-weight: 700;
   padding: 0.5rem 1.4rem;
   font-size: 1.5rem;
