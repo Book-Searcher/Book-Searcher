@@ -21,7 +21,7 @@ export default polka()
     sirv('static', { dev }),
     async (req, res, next) => {
       const response = await verifyToken(req, res, next);
-      if (isSecuredPath(req) && response.status != 200)
+      if (isSecuredPath(req) && response.status !== 200)
         return res
           .writeHead(response.status)
           .end(JSON.stringify({ error: response.message }));
@@ -29,7 +29,7 @@ export default polka()
       sapper.middleware({
         session: () => {
           return {
-            authenticated: response.status == 200 ? true : false,
+            authenticated: response.status === 200,
           };
         },
       })(req, res, next);
