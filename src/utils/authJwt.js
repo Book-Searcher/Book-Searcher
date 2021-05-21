@@ -14,7 +14,7 @@ export const verifyToken = async (req, res, next) => {
         return { status: 403, message: 'Unauthorized!' };
       }
       const user = await User.findOne({ _id: decoded._id });
-      if (user == undefined) {
+      if (user === undefined) {
         return { status: 403, message: 'UserId is not found' };
       }
 
@@ -31,8 +31,6 @@ export const verifyToken = async (req, res, next) => {
 // eslint-disable-next-line no-unused-vars
 export const isSecuredPath = (req, res, next) => {
   let securedPaths = ['/list.json'];
-  if (securedPaths.includes(req.url.split('?')[0])) {
-    return true;
-  }
-  return false;
+  return securedPaths.includes(req.url.split('?')[0]);
+
 };
