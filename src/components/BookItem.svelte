@@ -156,7 +156,7 @@ async function addBookToList(event) {
     });
 
     const result = await res.json();
-    if (result.error == 'The book already exists') {
+    if (result.error === 'The book already exists') {
       $alert = result.error;
       console.log($alert);
     }
@@ -212,7 +212,7 @@ async function deleteFromList() {
   <div class="author">
     <img alt="author" src={author} />
     <h4>
-      {#if authors == undefined}
+      {#if authors === undefined}
         Unknown
       {:else}
         {authors}
