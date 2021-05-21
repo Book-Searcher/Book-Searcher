@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     trim: true,
   },
+  // todo: why we need tokens in bd?
   tokens: [
     {
       token: {
