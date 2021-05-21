@@ -124,6 +124,7 @@ $: {
   buyLink = book.saleInfo.buyLink;
   listPrice = book.saleInfo.listPrice;
 }
+//todo: thumbnailUrl not declared
 $: thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
 
 async function addBookToList(event) {
