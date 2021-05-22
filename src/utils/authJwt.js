@@ -9,7 +9,7 @@ export const verifyToken = async (req, res, next) => {
       return { status: 403, message: 'No token provided!' };
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+    return jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
       if (err) {
         return { status: 403, message: 'Unauthorized!' };
       }
@@ -21,8 +21,8 @@ export const verifyToken = async (req, res, next) => {
       if (Date.now() >= decoded.exp * 1000) {
         return { status: 403, message: 'token is expired' };
       }
+      return { status: 200, message: 'Success', uid: decoded._id };
     });
-    return { status: 200, message: 'Success' };
   } catch (err) {
     console.log(err);
     throw new Error(err.message);

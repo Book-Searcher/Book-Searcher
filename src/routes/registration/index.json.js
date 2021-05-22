@@ -11,8 +11,7 @@ export async function post(req, res) {
     } else {
       const userToAdd = new User(user);
       await userToAdd.save();
-      const token = await userToAdd.generateAuthToken();
-      const data = [userToAdd, token];
+      const data = [userToAdd];
       res.end(JSON.stringify(data));
     }
   } catch (error) {

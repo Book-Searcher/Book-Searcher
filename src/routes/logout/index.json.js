@@ -2,7 +2,7 @@ const contentType = { 'Content-Type': 'application/json' };
 
 export async function post(req, res) {
   try {
-    res.setHeader('Set-Cookie', ['token =;', 'userId='], {
+    res.setHeader('Set-Cookie', ['token ='], {
       maxAge: 0,
       httpOnly: true,
     });
