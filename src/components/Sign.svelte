@@ -56,7 +56,7 @@ export let password = '';
     <div class="sign">
       <h1>{name}</h1>
       <form on:submit|preventDefault>
-<!--        todo: wrap input into label or at leaset use id-->
+        <!--        todo: wrap input into label or at leaset use id-->
         <label for="email">Email Address</label><br />
         <input
           bind:value={email}

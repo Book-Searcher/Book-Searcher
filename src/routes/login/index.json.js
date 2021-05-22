@@ -1,26 +1,20 @@
 import { User } from '@models/user.js';
+const jwt = require('jsonwebtoken');
 
 const contentType = { 'Content-Type': 'application/json' };
 
 export async function post(req, res) {
   try {
     const user = req.body;
-    const userToLog = await User.findUser(user);
-    const token = await userToLog.generateAuthToken();
+    const userToLog = await User.checkCredentials(user);
+    const token = generateAuthToken(userToLog);
     const data = {
-      id: userToLog._id,
-      email: userToLog.email,
       accessToken: token,
     };
-    // todo: jwt includes user id
-    res.setHeader(
-      'Set-Cookie',
-      [`token = ${token};`, `userId=${userToLog._id}`],
-      {
-        maxAge: 900000,
-        httpOnly: true,
-      }
-    );
+    res.setHeader('Set-Cookie', [`token = ${token}`], {
+      maxAge: 900000,
+      httpOnly: true,
+    });
     res.writeHead(200).end(JSON.stringify(data));
   } catch (error) {
     if (error instanceof Error) {
@@ -32,3 +26,7 @@ export async function post(req, res) {
     }
   }
 }
+const generateAuthToken = (user) =>
+  jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, {
+    expiresIn: '5d',
+  });

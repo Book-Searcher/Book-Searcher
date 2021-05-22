@@ -21,20 +21,25 @@ export default polka()
     compression({ threshold: 0 }),
     sirv('static', { dev }),
     async (req, res, next) => {
-      const response = await verifyToken(req, res, next);
-      if (isSecuredPath(req) && response.status !== 200)
-        return res
-          .writeHead(response.status)
-          .end(JSON.stringify({ error: response.message }));
-      //todo: why we need that session that always true?
-      sapper.middleware({
-        session: () => {
-          return {
-            authenticated: response.status === 200,
-          };
-        },
-      })(req, res, next);
-    }
+      req.response = await verifyToken(req, res, next);
+      next();
+    },
+    // eslint-disable-next-line no-unused-vars
+    (req, res, next) => {
+      if (isSecuredPath(req) && req.response.status !== 200)
+        res
+          .writeHead(req.response.status)
+          .end(JSON.stringify({ error: req.response.message }));
+      next();
+    },
+    sapper.middleware({
+      // eslint-disable-next-line no-unused-vars
+      session: (req, res, next) => {
+        return {
+          authenticated: req.response.status === 200,
+        };
+      },
+    })
   )
   .listen(PORT, (err) => {
     if (err) console.log('error', err);

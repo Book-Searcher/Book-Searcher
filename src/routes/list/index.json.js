@@ -5,7 +5,7 @@ export async function get(req, res) {
   try {
     let books = [];
     const list = await List.findOne({
-      owner: req.cookies['userId'],
+      owner: req.response.uid,
       type: req.query.type,
     });
     if (!list) {
@@ -45,12 +45,12 @@ export async function post(req, res) {
     }
     await book.save();
     let list = await List.findOne({
-      owner: req.cookies['userId'],
+      owner: req.response.uid,
       type: req.query.type,
     });
     if (!list) {
       list = new List({
-        owner: req.cookies['userId'],
+        owner: req.response.uid,
         type: req.query.type,
       });
     } else if (await checkBook(list, book)) {
@@ -79,7 +79,7 @@ export async function del(req, res) {
   try {
     const result = await List.updateOne(
       {
-        owner: req.cookies['userId'],
+        owner: req.response.uid,
         type: req.query.type,
       },
       {
