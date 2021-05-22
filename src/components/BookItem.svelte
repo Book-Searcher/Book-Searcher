@@ -110,7 +110,8 @@ let title,
   language,
   previewLink,
   buyLink,
-  listPrice;
+  listPrice,
+  thumbnailUrl;
 $: {
   title = book.volumeInfo.title;
   imageLinks = book.volumeInfo.imageLinks;
@@ -124,7 +125,6 @@ $: {
   buyLink = book.saleInfo.buyLink;
   listPrice = book.saleInfo.listPrice;
 }
-//todo: thumbnailUrl not declared
 $: thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
 
 async function addBookToList(event) {

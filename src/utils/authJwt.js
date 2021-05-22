@@ -32,5 +32,4 @@ export const verifyToken = async (req, res, next) => {
 export const isSecuredPath = (req, res, next) => {
   let securedPaths = ['/list.json'];
   return securedPaths.includes(req.url.split('?')[0]);
-
 };

@@ -56,10 +56,10 @@ export let password = '';
     <div class="sign">
       <h1>{name}</h1>
       <form on:submit|preventDefault>
-<!--        todo: wrap input into label or at leaset use id-->
         <label for="email">Email Address</label><br />
         <input
           bind:value={email}
+          id="email"
           type="email"
           placeholder="Email Address"
           name="email"
@@ -67,6 +67,7 @@ export let password = '';
         <label for="password">Password</label><br />
         <input
           bind:value={password}
+          id="password"
           type="password"
           placeholder="Password"
           name="password"
