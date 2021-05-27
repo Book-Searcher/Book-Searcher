@@ -96,6 +96,7 @@ import author from '@static/suspect.png';
 import View from '@components/View.svelte';
 import { alert } from '@store';
 import { stores } from '@sapper/app';
+// import { goto } from '@sapper/app';
 export let book;
 export let showDelBut = false;
 const { session, page } = stores();
@@ -113,19 +114,19 @@ let title,
   listPrice,
   thumbnailUrl;
 $: {
-  title = book.volumeInfo.title;
-  imageLinks = book.volumeInfo.imageLinks;
-  authors = book.volumeInfo.authors;
-  publishedDate = book.volumeInfo.publishedDate;
-  pageCount = book.volumeInfo.pageCount;
-  categories = book.volumeInfo.categories;
-  description = book.volumeInfo.description;
-  language = book.volumeInfo.language;
-  previewLink = book.volumeInfo.previewLink;
-  buyLink = book.saleInfo.buyLink;
-  listPrice = book.saleInfo.listPrice;
+  title = book?.volumeInfo?.title ?? 'No title';
+  imageLinks = book?.volumeInfo?.imageLinks ?? '';
+  authors = book?.volumeInfo?.authors ?? ['Unknown'];
+  categories = book?.volumeInfo?.categories ?? ['Unknown'];
+  publishedDate = book?.volumeInfo?.publishedDate ?? 'Unknown';
+  pageCount = book?.volumeInfo?.pageCount ?? 'Unknown';
+  description = book?.volumeInfo?.description ?? '';
+  language = book?.volumeInfo?.language ?? 'Unknown';
+  previewLink = book?.volumeInfo?.previewLink ?? '';
+  buyLink = book?.saleInfo?.buyLink ?? '';
+  listPrice = book?.saleInfo?.listPrice ?? 'Not for sale';
+  thumbnailUrl = imageLinks['thumbnail'] ?? '';
 }
-$: thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
 
 async function addBookToList(event) {
   try {
@@ -144,14 +145,16 @@ async function addBookToList(event) {
         publishedDate,
         description,
         language,
-        pageCount,
+        pageCount: pageCount,
         img: thumbnailUrl,
         link: previewLink,
-        authors: authors ? authors.join() : 'Unknown',
-        categories: categories ? categories.join() : 'Unknown',
+        authors: authors.join(),
+        categories: categories.join(),
         buyLink,
-        amount: listPrice ? listPrice.amount : 'Not for sale',
-        currencyCode: listPrice ? listPrice.currencyCode : '',
+        amount:
+          listPrice === 'Not for sale' ? 'Not for sale' : listPrice.amount,
+        currencyCode:
+          listPrice === 'Not for sale' ? '' : listPrice.currencyCode,
       }),
     });
 
@@ -176,6 +179,7 @@ async function deleteFromList() {
       }),
     });
     location.reload();
+    // goto(`/list?type=${$page.query.type}`);
   } catch (e) {
     console.error(e.message);
   }
@@ -211,12 +215,6 @@ async function deleteFromList() {
   </div>
   <div class="author">
     <img alt="author" src={author} />
-    <h4>
-      {#if authors === undefined}
-        Unknown
-      {:else}
-        {authors}
-      {/if}
-    </h4>
+    <h4>{authors}</h4>
   </div>
 </div>

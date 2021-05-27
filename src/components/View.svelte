@@ -21,7 +21,6 @@
   float: right;
   cursor: pointer;
   margin-right: 20px;
-  font-size: 2em;
 }
 .close:hover {
   font-weight: bold;
@@ -102,21 +101,22 @@ let title,
   language,
   previewLink,
   buyLink,
-  listPrice;
+  listPrice,
+  thumbnailUrl;
 $: {
-  title = wholeinfo.volumeInfo.title;
-  imageLinks = wholeinfo.volumeInfo.imageLinks;
-  authors = wholeinfo.volumeInfo.authors;
-  publishedDate = wholeinfo.volumeInfo.publishedDate;
-  pageCount = wholeinfo.volumeInfo.pageCount;
-  categories = wholeinfo.volumeInfo.categories;
-  description = wholeinfo.volumeInfo.description;
-  language = wholeinfo.volumeInfo.language;
-  previewLink = wholeinfo.volumeInfo.previewLink;
-  buyLink = wholeinfo.saleInfo.buyLink;
-  listPrice = wholeinfo.saleInfo.listPrice;
+  title = wholeinfo?.volumeInfo?.title ?? 'No title';
+  imageLinks = wholeinfo?.volumeInfo?.imageLinks ?? '';
+  authors = wholeinfo?.volumeInfo?.authors ?? ['Unknown'];
+  publishedDate = wholeinfo?.volumeInfo?.publishedDate ?? 'Unknown';
+  pageCount = wholeinfo?.volumeInfo?.pageCount ?? 'Unknown';
+  categories = wholeinfo.volumeInfo.categories ?? ['Unknown'];
+  description = wholeinfo?.volumeInfo?.description ?? '';
+  language = wholeinfo?.volumeInfo?.language ?? 'Unknown';
+  previewLink = wholeinfo?.volumeInfo?.previewLink ?? '';
+  buyLink = wholeinfo?.saleInfo?.buyLink ?? '';
+  listPrice = wholeinfo?.saleInfo?.listPrice ?? 'Not for sale';
+  thumbnailUrl = imageLinks['thumbnail'] ?? '';
 }
-$: thumbnailUrl = imageLinks ? imageLinks['thumbnail'] : '';
 let days;
 let estimation;
 
@@ -134,36 +134,21 @@ function estimateProgress() {
       <div class="title"><b>"{title}"</b></div>
       <div class="viewContainer">
         <div class="book_image_container fallback">
-          <img
-            class="book_image"
-            src="data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-            style="background-image: url({thumbnailUrl})"
-            alt />
+          <img class="book_image" src={thumbnailUrl} alt />
         </div>
         <div class="bookinfo">
           <ul>
-            <li>
-              <b>Authors: </b>
-              {#if authors == undefined}
-                Unknown
-              {:else}
-                {authors}
-              {/if}
-            </li>
+            <li><b>Authors: </b>{authors}</li>
             <li><b>Published Date: </b>{publishedDate}</li>
             <li>
               <b>Description: </b>
-              {#if description}
-                <textarea class="description" readonly>{description}</textarea>
-              {:else}
-                Unknown
-              {/if}
+              <textarea class="description" readonly>{description}</textarea>
             </li>
             <li><b>Categories: </b>"{categories}"</li>
             <li><b>Language: </b>"{language}"</li>
             <li>
               <b>Price: </b>
-              {#if listPrice == undefined}
+              {#if listPrice === 'Not for sale'}
                 Not for sale
               {:else}
                 {listPrice.amount} {listPrice.currencyCode}
@@ -171,20 +156,9 @@ function estimateProgress() {
             </li>
             <li>
               <b>Buy Link: </b>
-              {#if buyLink == undefined}
-                There is no buy link
-              {:else}
-                <a class="previewLink" href={buyLink}>link</a>
-              {/if}
+              <a class="previewLink" href={buyLink}>link</a>
             </li>
-            <li>
-              <b>PageCount: </b>
-              {#if pageCount == undefined}
-                Unknown
-              {:else}
-                {pageCount}
-              {/if}
-            </li>
+            <li><b>PageCount: </b>{pageCount}</li>
             <li>
               <b>Book preview: </b><a class="previewLink" href={previewLink}
                 >link</a>
@@ -197,7 +171,7 @@ function estimateProgress() {
                 placeholder="days number"
                 min="1" />
               <button on:click={() => estimateProgress()}>estimate</button>
-              {#if estimation != undefined}
+              {#if estimation !== undefined}
                 <span> = {estimation}</span>
               {/if}
             </li>

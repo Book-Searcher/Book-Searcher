@@ -18,22 +18,21 @@ export default polka()
     json(),
     sirv('static', { dev }),
     async (req, res, next) => {
-      req.response = await verifyToken(req, res, next);
+      req.auth = await verifyToken(req, res, next);
       next();
     },
-    // eslint-disable-next-line no-unused-vars
     (req, res, next) => {
-      if (isSecuredPath(req) && req.response.status !== 200)
+      if (isSecuredPath(req) && req.auth.status !== 200)
         res
-          .writeHead(req.response.status)
-          .end(JSON.stringify({ error: req.response.message }));
+          .writeHead(req.auth.status)
+          .end(JSON.stringify({ error: req.auth.message }));
       next();
     },
     sapper.middleware({
       // eslint-disable-next-line no-unused-vars
       session: (req, res, next) => {
         return {
-          authenticated: req.response.status === 200,
+          authenticated: req.auth.status === 200,
         };
       },
     })

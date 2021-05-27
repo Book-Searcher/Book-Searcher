@@ -21,7 +21,7 @@ const bookSchema = new mongoose.Schema({
     type: String,
   },
   pageCount: {
-    type: Number,
+    type: String,
   },
   img: {
     type: String,

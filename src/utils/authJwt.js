@@ -17,7 +17,6 @@ export const verifyToken = async (req, res, next) => {
       if (user === undefined) {
         return { status: 403, message: 'UserId is not found' };
       }
-
       if (Date.now() >= decoded.exp * 1000) {
         return { status: 403, message: 'token is expired' };
       }

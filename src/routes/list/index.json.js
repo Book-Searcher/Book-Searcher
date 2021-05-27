@@ -3,18 +3,16 @@ import { Book } from '@models/book.js';
 
 export async function get(req, res) {
   try {
-    let books = [];
     const list = await List.findOne({
-      owner: req.response.uid,
+      owner: req.auth.uid,
       type: req.query.type,
     });
-    if (!list) {
-      return res.writeHead(200).end(JSON.stringify(books));
-    }
-    for (let item in list.books) {
-      const book = await Book.findOne({ _id: list.books[item].book });
-      books.push(book);
-    }
+    if (!list) return res.writeHead(200).end(JSON.stringify([]));
+
+    let booksId = [];
+    for (let item in list.books) booksId.push(list.books[item].book);
+    let books = await Book.find({ _id: { $in: booksId } });
+
     res.writeHead(200).end(JSON.stringify(books));
   } catch (error) {
     if (error instanceof Error) {
@@ -26,6 +24,8 @@ export async function get(req, res) {
 
 export async function post(req, res) {
   try {
+    console.log(req.body.authors);
+    console.log(req.body.categories);
     let book = await Book.findOne({ title: req.body.title });
     if (!book) {
       book = new Book({
@@ -45,15 +45,15 @@ export async function post(req, res) {
     }
     await book.save();
     let list = await List.findOne({
-      owner: req.response.uid,
+      owner: req.auth.uid,
       type: req.query.type,
     });
     if (!list) {
       list = new List({
-        owner: req.response.uid,
+        owner: req.auth.uid,
         type: req.query.type,
       });
-    } else if (await checkBook(list, book)) {
+    } else if (checkBook(list, book)) {
       throw new Error('The book already exists');
     }
     list.books = list.books.concat({ book: book._id });
@@ -67,10 +67,10 @@ export async function post(req, res) {
     res.writeHead(500).end(JSON.stringify({ error: error }));
   }
 }
-async function checkBook(list, book) {
+function checkBook(list, book) {
   let duplicate = false;
-  list.books.forEach(async (bookItem) => {
-    if (String(bookItem.book) == String(book._id)) duplicate = true;
+  list.books.forEach((bookItem) => {
+    if (String(bookItem.book) === String(book._id)) duplicate = true;
   });
   return duplicate;
 }
@@ -79,7 +79,7 @@ export async function del(req, res) {
   try {
     const result = await List.updateOne(
       {
-        owner: req.response.uid,
+        owner: req.auth.uid,
         type: req.query.type,
       },
       {

@@ -77,7 +77,7 @@ async function handleSignUp() {
       }),
     });
     const result = await res.json();
-    if (result.error == 'User is already exists') {
+    if (result.error === 'User is already exists') {
       $alert = result.error;
     } else {
       showSignUpModal = false;
@@ -99,7 +99,7 @@ async function handleSignIn() {
       }),
     });
     const result = await res.json();
-    if (result.error == 'Wrong email' || result.error == 'Wrong password') {
+    if (result.error === 'Wrong email' || result.error === 'Wrong password') {
       $alert = result.error;
       return;
     }
