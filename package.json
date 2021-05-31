@@ -29,6 +29,7 @@
   "dependencies": {
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-image": "^2.0.6",
+    "@testing-library/jest-dom": "^5.12.0",
     "babel-eslint": "^10.1.0",
     "babel-node": "0.0.1-security",
     "bcryptjs": "^2.4.3",
@@ -36,12 +37,14 @@
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
+    "jest-transform-stub": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.9",
     "node-fetch": "^2.6.1",
     "polka": "next",
     "rollup-plugin-json": "^4.0.0",
     "sirv": "^1.0.0",
+    "supertest": "^6.1.3",
     "validator": "^13.6.0",
     "vercel-sapper": "^0.44.0"
   },

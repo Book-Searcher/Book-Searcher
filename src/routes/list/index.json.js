@@ -24,8 +24,6 @@ export async function get(req, res) {
 
 export async function post(req, res) {
   try {
-    console.log(req.body.authors);
-    console.log(req.body.categories);
     let book = await Book.findOne({ title: req.body.title });
     if (!book) {
       book = new Book({
@@ -42,8 +40,8 @@ export async function post(req, res) {
         amount: req.body.amount,
         currencyCode: req.body.currencyCode,
       });
+      await book.save();
     }
-    await book.save();
     let list = await List.findOne({
       owner: req.auth.uid,
       type: req.query.type,
@@ -57,7 +55,6 @@ export async function post(req, res) {
       throw new Error('The book already exists');
     }
     list.books = list.books.concat({ book: book._id });
-
     await list.save();
     res.end(JSON.stringify(list));
   } catch (error) {

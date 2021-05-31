@@ -167,6 +167,7 @@ function estimateProgress() {
               <b>Estimate personally reading progress: </b>
               <input
                 bind:value={days}
+                data-testid="estimation"
                 type="number"
                 placeholder="days number"
                 min="1" />

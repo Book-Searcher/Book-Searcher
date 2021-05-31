@@ -95,11 +95,10 @@
 import author from '@static/suspect.png';
 import View from '@components/View.svelte';
 import { alert } from '@store';
-import { stores } from '@sapper/app';
 // import { goto } from '@sapper/app';
 export let book;
 export let showDelBut = false;
-const { session, page } = stores();
+
 let shownView = false;
 let title,
   imageLinks,
@@ -130,10 +129,6 @@ $: {
 
 async function addBookToList(event) {
   try {
-    if (!$session.authenticated) {
-      $alert = 'Firstly, you have to log in';
-      console.log($alert);
-    }
     let type = event.target.name;
     const res = await fetch(`list.json?type=${type}`, {
       method: 'POST',
@@ -163,13 +158,17 @@ async function addBookToList(event) {
       $alert = result.error;
       console.log($alert);
     }
+    if (result.error === 'No token provided!') {
+      $alert = 'Firstly, you have to log in';
+      console.log($alert);
+    }
   } catch (e) {
     console.error(e.message);
   }
 }
 async function deleteFromList() {
   try {
-    await fetch(`list.json?type=${$page.query.type}`, {
+    await fetch(`list.json${window.location.search}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -178,7 +177,7 @@ async function deleteFromList() {
         _id: book._id,
       }),
     });
-    location.reload();
+    if (typeof process !== 'object') location.reload();
     // goto(`/list?type=${$page.query.type}`);
   } catch (e) {
     console.error(e.message);
