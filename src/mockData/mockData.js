@@ -166,4 +166,22 @@ export default {
     amount: '345.09',
     currencyCode: 'UAH',
   },
+  bookInfoWithId: {
+    _id: '60b3b9cab406ba30f444ac76',
+    title: 'Hermeneutics',
+    publishedDate: '2018-01-25T00:00:00.000Z',
+    description:
+      "Is anything ever not an interpretation? Does interpretation go all the way down? Is there such a thing as a pure fact that is interpretation-free? If not, how are we supposed to know what to think and do? These tantalizing questions are tackled by renowned American thinker John D Caputo in this wide-reaching exploration of what the traditional term 'hermeneutics' can mean in a postmodern, twenty-first century world. As a contemporary of Derrida's and longstanding champion of rethinking the disciplines of theology and philosophy, for decades Caputo has been forming alliances across disciplines and drawing in readers with his compelling approach to what he calls \"radical hermeneutics.\" In this new introduction, drawing upon a range of thinkers from Heidegger to the Parisian \"1968ers\" and beyond, he raises a series of probing questions about the challenges of life in the postmodern and maybe soon to be 'post-human' world.'",
+    language: 'un',
+    pageCount: '280',
+    img:
+      'http://books.google.com/books/content?id=G2wwDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+    link: '',
+    authors: 'John D. Caputo',
+    categories: 'Philosophy',
+    buyLink:
+      'https://play.google.com/store/books/details?id=G2wwDwAAQBAJ&rdid=book-G2wwDwAAQBAJ&rdot=1&source=gbs_api',
+    amount: '345.09',
+    currencyCode: 'UAH',
+  },
 };
