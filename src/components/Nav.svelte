@@ -68,7 +68,7 @@ let password = '';
 session.set({ authenticated: $session.authenticated });
 async function handleSignUp() {
   try {
-    const res = await fetch('registration.json', {
+    const res = await fetch('/registration.json', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -90,7 +90,7 @@ async function handleSignUp() {
 
 async function handleSignIn() {
   try {
-    const res = await fetch('login.json', {
+    const res = await fetch('/login.json', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -136,6 +136,7 @@ function handlePermission() {
 <nav>
   <ul>
     <li>
+<!--      todo: use page store from sapper-->
       <a aria-current={segment === undefined ? 'page' : undefined} href="."
         >About</a>
     </li>

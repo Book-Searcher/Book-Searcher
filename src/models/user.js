@@ -29,6 +29,7 @@ userSchema.statics.checkCredentials = async (user) => {
   if (!foundUser) {
     throw new Error('Wrong email');
   }
+  // todo: salt?
   const isMatch = await bcrypt.compare(password, foundUser.password);
   if (!isMatch) {
     throw new Error('Wrong password');
