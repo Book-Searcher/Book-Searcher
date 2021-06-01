@@ -7,10 +7,10 @@ export async function post(req, res) {
   fetch(encodeURI(url))
     .then((response) => response.json())
     .then((result) => {
-      res.end(JSON.stringify(result.items));
+      res.json(result.items).end();
     })
     .catch((error) => {
       res.writeHead(400);
-      res.end(JSON.stringify({ error: error.message }));
+      res.json({ error: error.message }).end();
     });
 }
