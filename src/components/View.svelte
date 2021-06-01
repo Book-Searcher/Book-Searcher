@@ -109,7 +109,7 @@ $: {
   authors = wholeinfo?.volumeInfo?.authors ?? ['Unknown'];
   publishedDate = wholeinfo?.volumeInfo?.publishedDate ?? 'Unknown';
   pageCount = wholeinfo?.volumeInfo?.pageCount ?? 'Unknown';
-  categories = wholeinfo.volumeInfo.categories ?? ['Unknown'];
+  categories = wholeinfo?.volumeInfo?.categories ?? ['Unknown'];
   description = wholeinfo?.volumeInfo?.description ?? '';
   language = wholeinfo?.volumeInfo?.language ?? 'Unknown';
   previewLink = wholeinfo?.volumeInfo?.previewLink ?? '';
