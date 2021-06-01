@@ -1,5 +1,6 @@
 import { List } from '@models/list.js';
 import { Book } from '@models/book.js';
+const send = require('@polka/send-type');
 
 export async function get(req, res) {
   try {
@@ -7,18 +8,16 @@ export async function get(req, res) {
       owner: req.auth.uid,
       type: req.query.type,
     });
-    if (!list) return res.writeHead(200).end(JSON.stringify([]));
-
+    if (!list) return send(res, 200, []);
     let booksId = [];
     list.books.forEach((book) => booksId.push(book.book));
     let books = await Book.find({ _id: { $in: booksId } });
-
-    res.writeHead(200).end(JSON.stringify(books));
+    send(res, 200, books);
   } catch (error) {
     if (error instanceof Error) {
-      return res.writeHead(400).end(JSON.stringify({ error: error.message }));
+      return send(res, 400, { error: error.message });
     }
-    res.writeHead(500).end(JSON.stringify({ error: error.message }));
+    send(res, 500, { error: error.message });
   }
 }
 
@@ -56,12 +55,12 @@ export async function post(req, res) {
     }
     list.books = list.books.concat({ book: book._id });
     await list.save();
-    res.end(JSON.stringify(list));
+    send(res, 200, list);
   } catch (error) {
     if (error instanceof Error) {
-      return res.writeHead(404).end(JSON.stringify({ error: error.message }));
+      return send(res, 404, { error: error.message });
     }
-    res.writeHead(500).end(JSON.stringify({ error: error }));
+    send(res, 500, { error: error.message });
   }
 }
 function checkBook(list, book) {
@@ -85,11 +84,11 @@ export async function del(req, res) {
         },
       }
     );
-    res.writeHead(200).end(JSON.stringify(result));
+    send(res, 200, result);
   } catch (error) {
     if (error instanceof Error) {
-      return res.writeHead(400).end(JSON.stringify({ error: error.message }));
+      return send(res, 400, { error: error.message });
     }
-    res.writeHead(500).end(JSON.stringify({ error: error.message }));
+    send(res, 500, { error: error.message });
   }
 }

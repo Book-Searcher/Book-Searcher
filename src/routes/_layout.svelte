@@ -1,6 +1,5 @@
 <style>
 main {
-  /* position: relative; */
   max-width: 56em;
   background-color: lightgoldenrodyellow;
   padding: 2em;
@@ -11,11 +10,9 @@ main {
 
 <script>
 import Nav from '@components/Nav.svelte';
-
-export let segment;
 </script>
 
-<Nav segment={segment} />
+<Nav />
 
 <main>
   <slot />

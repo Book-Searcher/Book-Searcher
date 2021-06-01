@@ -1,7 +1,6 @@
 import { User } from '@models/user.js';
 const jwt = require('jsonwebtoken');
-
-const contentType = { 'Content-Type': 'application/json' };
+const send = require('@polka/send-type');
 
 export async function post(req, res) {
   try {
@@ -12,18 +11,15 @@ export async function post(req, res) {
       accessToken: token,
     };
     res.setHeader('Set-Cookie', [`token = ${token}`], {
-      maxAge: 900000,
+      maxAge: 86400, // 24 hours
       httpOnly: true,
     });
-    res.writeHead(200).end(JSON.stringify(data));
+    send(res, 200, data);
   } catch (error) {
     if (error instanceof Error) {
-      res.writeHead(400, contentType);
-      res.end(JSON.stringify({ error: error.message }));
-    } else {
-      res.writeHead(500, contentType);
-      res.end(JSON.stringify({ error: error }));
+      return send(res, 400, { error: error.message });
     }
+    send(res, 500, { error: error.message });
   }
 }
 const generateAuthToken = (user) =>

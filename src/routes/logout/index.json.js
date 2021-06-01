@@ -1,4 +1,4 @@
-const contentType = { 'Content-Type': 'application/json' };
+const send = require('@polka/send-type');
 
 export async function post(req, res) {
   try {
@@ -6,15 +6,11 @@ export async function post(req, res) {
       maxAge: 0,
       httpOnly: true,
     });
-    //todo: token with length 90000 not banned?
-    res.writeHead(200).end();
+    send(res, 200);
   } catch (error) {
     if (error instanceof Error) {
-      res
-        .writeHead(400, contentType)
-        .end(JSON.stringify({ error: error.message }));
-    } else {
-      res.writeHead(500, contentType).end(JSON.stringify({ error: error }));
+      return send(res, 400, { error: error.message });
     }
+    send(res, 500, { error: error.message });
   }
 }

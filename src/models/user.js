@@ -26,10 +26,10 @@ userSchema.statics.checkCredentials = async (user) => {
   const email = user.email;
   const password = user.password;
   const foundUser = await User.findOne({ email });
+
   if (!foundUser) {
     throw new Error('Wrong email');
   }
-  // todo: salt?
   const isMatch = await bcrypt.compare(password, foundUser.password);
   if (!isMatch) {
     throw new Error('Wrong password');
@@ -37,12 +37,11 @@ userSchema.statics.checkCredentials = async (user) => {
   return foundUser;
 };
 
-//userSchema.statics.findUser = async (email) => await User.findOne({ email });
-
 userSchema.pre('save', async function (next) {
   const user = this;
+  const saltRounds = 8;
   if (user.isModified('password')) {
-    user.password = await bcrypt.hash(user.password, 8);
+    user.password = await bcrypt.hash(user.password, saltRounds);
   }
   next();
 });

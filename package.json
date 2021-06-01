@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/Book-Searcher/Book-Searcher#readme",
   "dependencies": {
+    "@polka/send-type": "^0.5.2",
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-image": "^2.0.6",
     "@testing-library/jest-dom": "^5.12.0",

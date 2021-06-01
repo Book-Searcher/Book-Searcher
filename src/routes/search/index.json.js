@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const dotenv = require('dotenv');
+const send = require('@polka/send-type');
 dotenv.config();
 
 export async function post(req, res) {
@@ -7,10 +8,9 @@ export async function post(req, res) {
   fetch(encodeURI(url))
     .then((response) => response.json())
     .then((result) => {
-      res.end(JSON.stringify(result.items));
+      send(res, 200, result.items);
     })
     .catch((error) => {
-      res.writeHead(400);
-      res.end(JSON.stringify({ error: error.message }));
+      send(res, 400, { error: error.message });
     });
 }

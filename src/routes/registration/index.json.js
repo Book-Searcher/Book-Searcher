@@ -1,11 +1,9 @@
 import { User } from '@models/user.js';
-
-const contentType = { 'Content-Type': 'application/json' };
+const send = require('@polka/send-type');
 
 export async function post(req, res) {
   try {
     const user = req.body;
-    // todo: this method already implemented in model
     const isUserExist = await User.findOne({ email: user.email });
     if (isUserExist) {
       throw new Error('User is already exists');
@@ -13,11 +11,12 @@ export async function post(req, res) {
       const userToAdd = new User(user);
       await userToAdd.save();
       const data = [userToAdd];
-      res.end(JSON.stringify(data));
+      send(res, 200, data);
     }
   } catch (error) {
-    res.writeHead(400, contentType);
-    // res.json({ error: error.message }).end(); NOT working
-    res.end(JSON.stringify({ error: error.message }));
+    if (error instanceof Error) {
+      return send(res, 400, { error: error.message });
+    }
+    send(res, 500, { error: error.message });
   }
 }
