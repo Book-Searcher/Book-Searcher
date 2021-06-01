@@ -6,6 +6,7 @@ export async function post(req, res) {
       maxAge: 0,
       httpOnly: true,
     });
+    //todo: token with length 90000 not banned?
     res.writeHead(200).end();
   } catch (error) {
     if (error instanceof Error) {
