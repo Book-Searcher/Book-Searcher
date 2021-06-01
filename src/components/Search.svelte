@@ -39,7 +39,7 @@ let searchText = '';
 async function searchBooks() {
   if (searchText) {
     let text = searchText.replace(/ AND /g, '&').replace(/ /g, '+');
-    await fetch('search.json', {
+    await fetch('/search.json', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
