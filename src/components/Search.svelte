@@ -33,8 +33,7 @@
 </style>
 
 <script>
-import { books } from '@store';
-import { alert } from '@store';
+import { books, alert } from '@store';
 let searchText = '';
 
 async function searchBooks() {
