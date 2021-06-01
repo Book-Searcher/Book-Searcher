@@ -55,7 +55,6 @@ span {
 </style>
 
 <script>
-export let segment;
 import Sign from '@components/Sign.svelte';
 import Notification from '@components/Notification.svelte';
 import { stores } from '@sapper/app';
@@ -136,14 +135,13 @@ function handlePermission() {
 <nav>
   <ul>
     <li>
-      <!--      todo: use page store from sapper-->
-      <a aria-current={segment === undefined ? 'page' : undefined} href="."
+      <a aria-current={$page.path === '/' ? 'page' : undefined} href="."
         >About</a>
     </li>
     <li>
       <a
         class="listButton"
-        aria-current={segment === 'list' && $page.query.type === 'readList'
+        aria-current={$page.path === '/list' && $page.query.type === 'readList'
           ? 'page'
           : undefined}
         href="list?type=readList"
@@ -152,7 +150,7 @@ function handlePermission() {
     <li>
       <a
         class="listButton"
-        aria-current={segment === 'list' &&
+        aria-current={$page.path === '/list' &&
         $page.query.type === 'wantToReadList'
           ? 'page'
           : undefined}
@@ -162,14 +160,16 @@ function handlePermission() {
     <li>
       <a
         class="listButton"
-        aria-current={segment === 'list' && $page.query.type === 'favList'
+        aria-current={$page.path === '/list' && $page.query.type === 'favList'
           ? 'page'
           : undefined}
         href="list?type=favList"
         on:click={handlePermission}>Favourites List</a>
     </li>
     <li>
-      <a aria-current={segment === 'search' ? 'page' : undefined} href="search">
+      <a
+        aria-current={$page.path === '/search' ? 'page' : undefined}
+        href="search">
         Search</a>
     </li>
     {#if $session.authenticated}

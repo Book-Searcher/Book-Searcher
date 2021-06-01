@@ -15,7 +15,6 @@ export async function post(req, res) {
       maxAge: 900000,
       httpOnly: true,
     });
-    //todo: you know...
     res.writeHead(200).end(JSON.stringify(data));
   } catch (error) {
     if (error instanceof Error) {
