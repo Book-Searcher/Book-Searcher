@@ -172,7 +172,7 @@ function estimateProgress() {
                 placeholder="days number"
                 min="1" />
               <button on:click={() => estimateProgress()}>estimate</button>
-              {#if estimation !== undefined}
+              {#if !estimation}
                 <span> = {estimation}</span>
               {/if}
             </li>
