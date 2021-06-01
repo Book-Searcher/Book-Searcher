@@ -121,9 +121,10 @@ let days;
 let estimation;
 
 function estimateProgress() {
-  estimation = pageCount
-    ? (pageCount / days).toFixed(1)
-    : 'There is no info about page count';
+  estimation =
+    pageCount !== 'Unknown'
+      ? (pageCount / days).toFixed(1)
+      : 'There is no info about page count';
 }
 </script>
 
@@ -172,7 +173,8 @@ function estimateProgress() {
                 placeholder="days number"
                 min="1" />
               <button on:click={() => estimateProgress()}>estimate</button>
-              {#if !estimation}
+              <!-- {#if !estimation} NOT working -->
+              {#if estimation !== undefined}
                 <span> = {estimation}</span>
               {/if}
             </li>
