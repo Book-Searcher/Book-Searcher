@@ -17,6 +17,7 @@ export async function post(req, res) {
     }
   } catch (error) {
     res.writeHead(400, contentType);
-    res.json({ error: error.message }).end();
+    // res.json({ error: error.message }).end(); NOT working
+    res.end(JSON.stringify({ error: error.message }));
   }
 }

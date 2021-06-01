@@ -37,6 +37,8 @@ userSchema.statics.checkCredentials = async (user) => {
   return foundUser;
 };
 
+//userSchema.statics.findUser = async (email) => await User.findOne({ email });
+
 userSchema.pre('save', async function (next) {
   const user = this;
   if (user.isModified('password')) {

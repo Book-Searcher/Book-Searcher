@@ -10,9 +10,7 @@ export async function get(req, res) {
     if (!list) return res.writeHead(200).end(JSON.stringify([]));
 
     let booksId = [];
-    // for (let item in list.books) booksId.push(list.books[item].book);
-    // todo: foreach?
-    list.books.forEach(book => booksId.push(book.book))
+    list.books.forEach((book) => booksId.push(book.book));
     let books = await Book.find({ _id: { $in: booksId } });
 
     res.writeHead(200).end(JSON.stringify(books));

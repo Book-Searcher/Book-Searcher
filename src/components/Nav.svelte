@@ -136,7 +136,7 @@ function handlePermission() {
 <nav>
   <ul>
     <li>
-<!--      todo: use page store from sapper-->
+      <!--      todo: use page store from sapper-->
       <a aria-current={segment === undefined ? 'page' : undefined} href="."
         >About</a>
     </li>
