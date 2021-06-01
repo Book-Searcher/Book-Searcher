@@ -69,6 +69,7 @@ export async function post(req, res) {
 function checkBook(list, book) {
   let duplicate = false;
   list.books.forEach((bookItem) => {
+    // todo: why you have to convert them to string?
     if (String(bookItem.book) === String(book._id)) duplicate = true;
   });
   return duplicate;
