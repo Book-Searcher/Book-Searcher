@@ -7,7 +7,7 @@ p {
 <script context="module">
 export async function preload(page) {
   try {
-    const res = await this.fetch(`list.json?type=${page.query.type}`, {
+    const res = await this.fetch(`/list.json?type=${page.query.type}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
