@@ -14,11 +14,11 @@ jobs:
 
       - name: 'ci'
         run: npm ci
-      - name: 'build'
-        run: npm run build
       - name: 'prettier'
         run: npm run prettier
       - name: 'lint'
         run: npm run lint
       - name: 'test'
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET}}
         run: npm run test
