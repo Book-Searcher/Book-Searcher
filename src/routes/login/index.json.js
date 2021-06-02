@@ -22,7 +22,7 @@ export async function post(req, res) {
     send(res, 500, { error: error.message });
   }
 }
-const generateAuthToken = (user) =>
+export const generateAuthToken = (user) =>
   jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, {
     expiresIn: '1d',
   });

@@ -11,19 +11,15 @@ export const verifyToken = async (req, res, next) => {
 
     return jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
       if (err) {
-        return { status: 403, message: 'Unauthorized!' };
+        return { status: 403, message: err };
       }
       const user = await User.findOne({ _id: decoded._id });
       if (user === undefined) {
         return { status: 403, message: 'UserId is not found' };
       }
-      if (Date.now() >= decoded.exp * 1000) {
-        return { status: 403, message: 'token is expired' };
-      }
       return { status: 200, message: 'Success', uid: decoded._id };
     });
   } catch (err) {
-    console.log(err);
     throw new Error(err.message);
   }
 };
