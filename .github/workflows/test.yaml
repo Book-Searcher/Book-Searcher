@@ -19,4 +19,6 @@ jobs:
       - name: 'lint'
         run: npm run lint
       - name: 'test'
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET}}
         run: npm run test

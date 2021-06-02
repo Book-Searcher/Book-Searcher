@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": "/",
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@store/*": ["./src/store/store.js"],
+      "@static/*": ["./static/*"],
+      "@db/*": ["./src/db/*"],
+      "@models/*": ["./src/models/*"],
+      "@utils/*": ["./src/utils/*"]
+    }
+  },
+  "include": [
+    "src/**/*.js",
+    "src/**/*.svelte",
+    "static/*",
+    "static/node_modules/mongoose"
+  ]
+}

@@ -1,6 +1,7 @@
 module.exports = {
+  parser: 'babel-eslint',
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2020,
     sourceType: 'module',
   },
   env: {
@@ -28,5 +29,6 @@ module.exports = {
     'jest/no-identical-title': 'error',
     'jest/prefer-to-have-length': 'warn',
     'jest/valid-expect': 'error',
+    'sonarjs/no-duplicate-string': ['error', 5],
   },
 };

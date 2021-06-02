@@ -5,13 +5,28 @@ import commonjs from '@rollup/plugin-commonjs';
 import url from '@rollup/plugin-url';
 import svelte from 'rollup-plugin-svelte';
 import babel from '@rollup/plugin-babel';
+import json from 'rollup-plugin-json';
 import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
+import alias from '@rollup/plugin-alias';
+import image from '@rollup/plugin-image';
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
+
+const aliases = alias({
+  resolve: ['.svelte', '.js', '.png'],
+  entries: [
+    { find: '@components', replacement: 'src/components' },
+    { find: '@store', replacement: 'src/store/store.js' },
+    { find: '@static', replacement: 'static' },
+    { find: '@db', replacement: 'src/db' },
+    { find: '@models', replacement: 'src/models' },
+    { find: '@utils', replacement: 'src/utils' },
+  ],
+});
 
 const onwarn = (warning, onwarn) =>
   (warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
@@ -31,6 +46,7 @@ export default {
           'process.env.NODE_ENV': JSON.stringify(mode),
         },
       }),
+      aliases,
       svelte({
         compilerOptions: {
           dev,
@@ -45,6 +61,7 @@ export default {
         browser: true,
         dedupe: ['svelte'],
       }),
+      image(),
       commonjs(),
 
       legacy &&
@@ -83,7 +100,7 @@ export default {
 
   server: {
     input: config.server.input(),
-    output: config.server.output(),
+    output: { ...config.server.output(), exports: 'default' },
     plugins: [
       replace({
         preventAssignment: true,
@@ -92,6 +109,8 @@ export default {
           'process.env.NODE_ENV': JSON.stringify(mode),
         },
       }),
+      json(),
+      aliases,
       svelte({
         compilerOptions: {
           dev,
@@ -105,6 +124,7 @@ export default {
         publicPath: '/client/',
         emitFiles: false, // already emitted by client build
       }),
+      image(),
       resolve({
         dedupe: ['svelte'],
       }),

@@ -4,29 +4,36 @@ nav {
   font-weight: 300;
   padding: 0 1em;
 }
-
 ul {
   margin: 0;
   padding: 0;
 }
-
-/* clearfix */
 ul::after {
   content: '';
   display: block;
   clear: both;
 }
-
 li {
   display: block;
-  float: left;
+  float: right;
 }
-
+.signButton {
+  float: left;
+  text-decoration: none;
+  margin-top: 0.35em;
+  padding: 0.5em 0.7em 0.5em 0.7em;
+  display: block;
+  border: 2px solid rgb(247, 130, 62);
+  cursor: pointer;
+}
+.signButton:hover {
+  background-color: rgb(247, 130, 62);
+  color: white;
+}
 [aria-current] {
   position: relative;
   display: inline-block;
 }
-
 [aria-current]::after {
   position: absolute;
   content: '';
@@ -34,38 +41,178 @@ li {
   height: 2px;
   background-color: rgb(255, 62, 0);
   display: block;
-  bottom: -1px;
+  bottom: 5px;
 }
-
 a {
   text-decoration: none;
   padding: 1em 0.5em;
   display: block;
 }
+span {
+  color: rgb(255, 62, 0);
+  text-decoration: underline;
+}
 </style>
 
 <script>
-export let segment;
+import Sign from '@components/Sign.svelte';
+import Notification from '@components/Notification.svelte';
+import { stores } from '@sapper/app';
+import { alert } from '@store';
+const { session, page } = stores();
+let showSignInModal = false;
+let showSignUpModal = false;
+let email = '';
+let password = '';
+session.set({ authenticated: $session.authenticated });
+async function handleSignUp() {
+  try {
+    const res = await fetch('/registration.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    const result = await res.json();
+    if (result.error === 'User is already exists') {
+      $alert = result.error;
+    } else {
+      showSignUpModal = false;
+      showSignInModal = true;
+    }
+  } catch (e) {
+    console.error(e.message);
+  }
+}
+
+async function handleSignIn() {
+  try {
+    const res = await fetch('/login.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    const result = await res.json();
+    if (result.error === 'Wrong email' || result.error === 'Wrong password') {
+      $alert = result.error;
+      return;
+    }
+    if (!result.accessToken) {
+      $alert = 'Something Went Wrong';
+      return;
+    }
+    showSignInModal = false;
+    $session.authenticated = true;
+  } catch (e) {
+    console.error(e.message);
+  }
+}
+async function handleSignOut() {
+  try {
+    session.set({});
+    await fetch('logout.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (e) {
+    console.error(e.message);
+  }
+}
+function handlePermission() {
+  if (!$session.authenticated) {
+    showSignInModal = true;
+    $alert = 'Firstly, you have to log in';
+    console.log($alert);
+  }
+}
 </script>
 
 <nav>
   <ul>
     <li>
-      <a aria-current={segment === undefined ? 'page' : undefined} href="."
-        >home</a>
+      <a aria-current={$page.path === '/' ? 'page' : undefined} href="."
+        >About</a>
     </li>
-    <li>
-      <a aria-current={segment === 'about' ? 'page' : undefined} href="about"
-        >about</a>
-    </li>
-
-    <!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
-		     the blog data when we hover over the link or tap it on a touchscreen -->
     <li>
       <a
-        rel="prefetch"
-        aria-current={segment === 'blog' ? 'page' : undefined}
-        href="blog">blog</a>
+        class="listButton"
+        aria-current={$page.path === '/list' && $page.query.type === 'readList'
+          ? 'page'
+          : undefined}
+        href="list?type=readList"
+        on:click={handlePermission}>Read List</a>
     </li>
+    <li>
+      <a
+        class="listButton"
+        aria-current={$page.path === '/list' &&
+        $page.query.type === 'wantToReadList'
+          ? 'page'
+          : undefined}
+        href="list?type=wantToReadList"
+        on:click={handlePermission}>WantToRead List</a>
+    </li>
+    <li>
+      <a
+        class="listButton"
+        aria-current={$page.path === '/list' && $page.query.type === 'favList'
+          ? 'page'
+          : undefined}
+        href="list?type=favList"
+        on:click={handlePermission}>Favourites List</a>
+    </li>
+    <li>
+      <a
+        aria-current={$page.path === '/search' ? 'page' : undefined}
+        href="search">
+        Search</a>
+    </li>
+    {#if $session.authenticated}
+      <li class="signButton" on:click={handleSignOut}>Log out</li>
+    {:else}
+      <li class="signButton" on:click={() => (showSignInModal = true)}>
+        Sign In
+      </li>
+    {/if}
+
+    <Sign
+      shown={showSignInModal}
+      on:click={() => (showSignInModal = false)}
+      name="Sign In"
+      bind:email
+      bind:password
+      on:submit={handleSignIn}>
+      <p>
+        Do not have an account?
+        <span
+          on:click={() => {
+            showSignUpModal = true;
+            showSignInModal = false;
+          }}>Sign Up</span>
+      </p>
+    </Sign>
+
+    <Sign
+      shown={showSignUpModal}
+      on:click={() => (showSignUpModal = false)}
+      name="Sign Up"
+      bind:email
+      bind:password
+      on:submit={handleSignUp}>
+      <p>
+        Already have an account?
+        <span
+          on:click={() => {
+            showSignUpModal = false;
+            showSignInModal = true;
+          }}>Sign In</span>
+      </p>
+    </Sign>
+    <Notification />
   </ul>
 </nav>
